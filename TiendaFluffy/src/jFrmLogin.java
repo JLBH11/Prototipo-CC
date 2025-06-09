@@ -25,7 +25,7 @@ public class jFrmLogin extends javax.swing.JFrame {
         
         getContentPane().setBackground(new Color(250, 218, 221));  // Rosado claro
 
-        ImageIcon logoOriginal = new ImageIcon(getClass().getResource("/Imagenes/logo.jpg"));
+        ImageIcon logoOriginal = new ImageIcon(getClass().getResource("/Imagenes/LogoP.png"));
     
     Image imagenEscalada = logoOriginal.getImage().getScaledInstance(
         lblLogo.getWidth(), lblLogo.getHeight(), Image.SCALE_SMOOTH);
@@ -50,6 +50,7 @@ lblLogo.setIcon(new ImageIcon(imagenEscalada));
         jLabel5 = new javax.swing.JLabel();
         jPasswordFieldContra = new javax.swing.JPasswordField();
         jButton1 = new javax.swing.JButton();
+        jButton2 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setBackground(new java.awt.Color(255, 153, 153));
@@ -57,7 +58,7 @@ lblLogo.setIcon(new ImageIcon(imagenEscalada));
 
         lblLogo.setBackground(new java.awt.Color(255, 102, 102));
         lblLogo.setForeground(new java.awt.Color(204, 102, 255));
-        lblLogo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/Logo.jpg"))); // NOI18N
+        lblLogo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/LogoP.png"))); // NOI18N
         lblLogo.setText("Logo");
 
         jLabel2.setFont(new java.awt.Font("Tahoma", 1, 20)); // NOI18N
@@ -82,7 +83,9 @@ lblLogo.setIcon(new ImageIcon(imagenEscalada));
             }
         });
 
+        jButtonIsu.setBackground(new java.awt.Color(0, 0, 0));
         jButtonIsu.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        jButtonIsu.setForeground(new java.awt.Color(255, 255, 255));
         jButtonIsu.setText("Iniciar Sesion Como Usuario");
         jButtonIsu.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -108,11 +111,21 @@ lblLogo.setIcon(new ImageIcon(imagenEscalada));
 
         jPasswordFieldContra.setText("000000000");
 
+        jButton1.setBackground(new java.awt.Color(0, 0, 0));
         jButton1.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        jButton1.setForeground(new java.awt.Color(255, 255, 255));
         jButton1.setText("Registrate");
         jButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton1ActionPerformed(evt);
+            }
+        });
+
+        jButton2.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        jButton2.setText("Soporte");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
             }
         });
 
@@ -122,36 +135,37 @@ lblLogo.setIcon(new ImageIcon(imagenEscalada));
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addComponent(jLabel4)
-                        .addGap(129, 129, 129))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addComponent(jLabel3)
-                        .addGap(119, 119, 119))))
+                .addComponent(jLabel3)
+                .addGap(119, 119, 119))
             .addGroup(layout.createSequentialGroup()
                 .addGap(143, 143, 143)
                 .addComponent(lblLogo, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(0, 0, Short.MAX_VALUE))
             .addGroup(layout.createSequentialGroup()
-                .addGap(87, 87, 87)
+                .addGap(77, 77, 77)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jCheckBoxRecordar)
-                            .addGroup(layout.createSequentialGroup()
-                                .addGap(8, 8, 8)
-                                .addComponent(jLabel5)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(jButton1)))
-                        .addContainerGap(93, Short.MAX_VALUE))
-                    .addGroup(layout.createSequentialGroup()
+                        .addGap(10, 10, 10)
                         .addComponent(jLabel2)
                         .addGap(0, 0, Short.MAX_VALUE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jCheckBoxRecordar)
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(0, 0, Short.MAX_VALUE)
+                                .addComponent(jLabel5)
+                                .addGap(18, 18, 18)
+                                .addComponent(jButton1))
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(17, 17, 17)
+                                .addComponent(jLabel4)
+                                .addGap(18, 18, 18)
+                                .addComponent(jButton2)
+                                .addGap(0, 0, Short.MAX_VALUE))
                             .addComponent(jPasswordFieldContra, javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jButtonIsu, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 277, Short.MAX_VALUE)
+                            .addComponent(jButtonIsu, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 287, Short.MAX_VALUE)
                             .addComponent(jTextFieldEmail)
                             .addComponent(jButtonIsa, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                         .addGap(75, 75, 75))))
@@ -176,19 +190,21 @@ lblLogo.setIcon(new ImageIcon(imagenEscalada));
                 .addGap(18, 18, 18)
                 .addComponent(jButtonIsa, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addComponent(jLabel4)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jButton2)
+                    .addComponent(jLabel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel5)
                     .addComponent(jButton1))
-                .addContainerGap(77, Short.MAX_VALUE))
+                .addContainerGap(69, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
     private void cargarLogo() {
-    ImageIcon logoOriginal = new ImageIcon(getClass().getResource("/Imagenes/logo.jpg"));
+    ImageIcon logoOriginal = new ImageIcon(getClass().getResource("/Imagenes/LogoP.png"));
     Image imagenEscalada = logoOriginal.getImage().getScaledInstance(
             lblLogo.getWidth(), lblLogo.getHeight(), Image.SCALE_SMOOTH);
     lblLogo.setIcon(new ImageIcon(imagenEscalada));
@@ -204,21 +220,32 @@ lblLogo.setIcon(new ImageIcon(imagenEscalada));
     }//GEN-LAST:event_jCheckBoxRecordarActionPerformed
 
     private void jButtonIsuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonIsuActionPerformed
-    String usuario = jTextFieldEmail.getText();
-    String contraseña = String.valueOf(jPasswordFieldContra.getPassword());
+    String usuario = jTextFieldEmail.getText().trim(); // este campo ahora es para el username, no el email
+    String contraseña = String.valueOf(jPasswordFieldContra.getPassword()).trim();
 
+    boolean encontrado = false;
 
-    // Validación simple (puedes mejorarlo después)
-    if (usuario.equals("cliente") && contraseña.equals("1234")) {
-        JOptionPane.showMessageDialog(this, "Bienvenido a Fluffy Center");
+    for (Usuario u : TiendaDatos.listaUsuarios) {
+        if (u.getUsername().equals(usuario) && u.getContraseña().equals(contraseña)) {
+            encontrado = true;
+            
+            // Verifica el rol
+            if (u.getRol().equalsIgnoreCase("admin")) {
+                JOptionPane.showMessageDialog(this, "Has ingresado al panel de administración de Fluffy Center");
+                jFrmAdmin admin = new jFrmAdmin();
+                admin.setVisible(true);
+            } else {
+                JOptionPane.showMessageDialog(this, "Bienvenido a Fluffy Center, " + u.getNombres());
+                FrmCatalogo catalogo = new FrmCatalogo();
+                catalogo.setVisible(true);
+            }
 
-        // Abrir la ventana del catálogo
-        jFrmCatalogo catalogo = new jFrmCatalogo();
-        catalogo.setVisible(true);
+            this.dispose(); // Cierra la ventana de login
+            break;
+        }
+    }
 
-        // Cerrar la ventana actual
-        this.dispose(); 
-    } else {
+    if (!encontrado) {
         JOptionPane.showMessageDialog(this, "Usuario o contraseña incorrectos");
     }
     }//GEN-LAST:event_jButtonIsuActionPerformed
@@ -248,6 +275,17 @@ lblLogo.setIcon(new ImageIcon(imagenEscalada));
         registrar.setVisible(true);
 
     }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+    String mensaje = "📞 Soporte de Fluffy Center\n\n"
+                   + "Teléfono: +57 312 8507201\n"
+                   + "Correo: soporte@fluffycenter.com\n\n"
+                   + "Horario de atención: Lunes a Viernes, 9:00 a 18:00";
+
+    JOptionPane.showMessageDialog(this, mensaje, "Soporte Técnico", JOptionPane.INFORMATION_MESSAGE);
+
+   // aqui quiero que al presionar este boton de soporte, muestre un mensaje por dialogo con la informacion de soporte, el telefono y email
+    }//GEN-LAST:event_jButton2ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -286,6 +324,7 @@ lblLogo.setIcon(new ImageIcon(imagenEscalada));
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
+    private javax.swing.JButton jButton2;
     private javax.swing.JButton jButtonIsa;
     private javax.swing.JButton jButtonIsu;
     private javax.swing.JCheckBox jCheckBoxRecordar;

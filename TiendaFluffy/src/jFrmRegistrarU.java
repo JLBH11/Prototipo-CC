@@ -1,10 +1,14 @@
 
+import java.awt.Color;
 import javax.swing.JOptionPane;
 
 public class jFrmRegistrarU extends javax.swing.JFrame {
 
     public jFrmRegistrarU() {
         initComponents();
+        setLocationRelativeTo(null);
+
+        getContentPane().setBackground(new Color(250, 218, 221));
     }
 
     @SuppressWarnings("unchecked")
@@ -80,6 +84,8 @@ public class jFrmRegistrarU extends javax.swing.JFrame {
             }
         });
 
+        salir.setBackground(new java.awt.Color(255, 0, 0));
+        salir.setForeground(new java.awt.Color(255, 255, 255));
         salir.setText("Salir");
         salir.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
