@@ -48,8 +48,8 @@ lblLogo.setIcon(new ImageIcon(imagenEscalada));
         jButtonIsa = new javax.swing.JButton();
         jLabel4 = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
-        jLabel6 = new javax.swing.JLabel();
         jPasswordFieldContra = new javax.swing.JPasswordField();
+        jButton1 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setBackground(new java.awt.Color(255, 153, 153));
@@ -106,10 +106,15 @@ lblLogo.setIcon(new ImageIcon(imagenEscalada));
         jLabel5.setForeground(new java.awt.Color(102, 102, 102));
         jLabel5.setText("¿No tienes una cuenta?");
 
-        jLabel6.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
-        jLabel6.setText("Registrate");
-
         jPasswordFieldContra.setText("000000000");
+
+        jButton1.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        jButton1.setText("Registrate");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -138,8 +143,8 @@ lblLogo.setIcon(new ImageIcon(imagenEscalada));
                                 .addGap(8, 8, 8)
                                 .addComponent(jLabel5)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(jLabel6)))
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                .addComponent(jButton1)))
+                        .addContainerGap(93, Short.MAX_VALUE))
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jLabel2)
                         .addGap(0, 0, Short.MAX_VALUE))
@@ -175,8 +180,8 @@ lblLogo.setIcon(new ImageIcon(imagenEscalada));
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel5)
-                    .addComponent(jLabel6))
-                .addContainerGap(85, Short.MAX_VALUE))
+                    .addComponent(jButton1))
+                .addContainerGap(77, Short.MAX_VALUE))
         );
 
         pack();
@@ -238,6 +243,12 @@ lblLogo.setIcon(new ImageIcon(imagenEscalada));
     }
     }//GEN-LAST:event_jButtonIsaActionPerformed
 
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+    jFrmRegistrarU registrar = new jFrmRegistrarU();
+        registrar.setVisible(true);
+
+    }//GEN-LAST:event_jButton1ActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -274,6 +285,7 @@ lblLogo.setIcon(new ImageIcon(imagenEscalada));
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton jButton1;
     private javax.swing.JButton jButtonIsa;
     private javax.swing.JButton jButtonIsu;
     private javax.swing.JCheckBox jCheckBoxRecordar;
@@ -281,7 +293,6 @@ lblLogo.setIcon(new ImageIcon(imagenEscalada));
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
-    private javax.swing.JLabel jLabel6;
     private javax.swing.JPasswordField jPasswordFieldContra;
     private javax.swing.JTextField jTextFieldEmail;
     private javax.swing.JLabel lblLogo;
