@@ -26,7 +26,8 @@ import javax.swing.JOptionPane;
  * @author Usuario
  */
 public class jFrmLogin extends javax.swing.JFrame {
-private Tienda tienda = new Tienda(); // esto debe estar al principio de la clase FrmLogin
+private Tienda tienda;
+ // esto debe estar al principio de la clase FrmLogin
 
     /**
      * Creates new form jFrmLogin
@@ -35,6 +36,12 @@ private Tienda tienda = new Tienda(); // esto debe estar al principio de la clas
         initComponents();
         cargarLogo();
         UsuarioDatos.cargarUsuarios();
+         tienda = new Tienda();
+         try {
+        tienda.cargarCatalogo(); // ✅ CARGAR
+    } catch (Exception e) {
+        System.out.println("No se pudo cargar el catálogo: " + e.getMessage());
+    }
         
         getContentPane().setBackground(new Color(250, 218, 221));  // Rosado claro
 
@@ -251,23 +258,20 @@ JOptionPane.showMessageDialog(this, "Usuario o contraseña incorrectos");
     }//GEN-LAST:event_jButtonIsuActionPerformed
 
     private void jButtonIsaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonIsaActionPerformed
-    String username = txtUsuario.getText().trim();
-String contraseña = txtClave.getText().trim();
+ String usuario = txtUsuario.getText().trim();
+    String clave = txtClave.getText().trim();
 
-ArrayList<Usuario> listaUsuarios = UsuarioDatos.cargarUsuarios();
-for (Usuario u : listaUsuarios) {
-    if (u.getUsername().equals(username) && u.getContraseña().equals(contraseña)) {
-        JOptionPane.showMessageDialog(null, "Bienvenido " + u.getUsername());
-
-        FrmCatalogo catalogo = new FrmCatalogo(u);
-catalogo.setVisible(true);
-this.dispose();
-
-        return;
+    if (tienda.validarUsuario(usuario, clave)) {
+        if (usuario.equals("admin")) {
+            FrmAdmin admin = new FrmAdmin(tienda);
+            admin.setVisible(true);
+            this.dispose(); // Cierra el login
+        } else {
+            JOptionPane.showMessageDialog(this, "Este botón es solo para administradores.");
+        }
+    } else {
+        JOptionPane.showMessageDialog(this, "Usuario o contraseña incorrectos.");
     }
-}
-JOptionPane.showMessageDialog(this, "Usuario o contraseña incorrectos");
-
     }//GEN-LAST:event_jButtonIsaActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed

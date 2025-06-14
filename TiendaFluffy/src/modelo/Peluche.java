@@ -1,11 +1,13 @@
 package modelo;
 
-public class Peluche {
+import java.io.Serializable;
+
+public class Peluche implements Serializable {
     private String nombre;
     private double precio;
-    private String imagenRuta;  // Ruta del archivo de imagen
-    private String categoria;   // Ej: "Perro", "Oso", "Fantasía", etc.
-    private double calificacion; // De 1.0 a 5.0
+    private String imagenRuta;
+    private String categoria;
+    private double calificacion;
 
     public Peluche(String nombre, double precio, String imagenRuta, String categoria, double calificacion) {
         this.nombre = nombre;
