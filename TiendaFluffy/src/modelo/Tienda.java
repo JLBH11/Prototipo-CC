@@ -1,6 +1,5 @@
 package modelo;
 
-
 import java.io.*;
 import java.util.*;
 
@@ -8,24 +7,64 @@ public class Tienda {
     private ArrayList<Peluche> catalogo;
     private Stack<Peluche> historial;
     private Queue<Peluche> pedidos;
-    private Map<String, String> usuarios;
+    private ArrayList<Usuario> usuarios;
+    private ArrayList<Peluche> carrito;
 
     public Tienda() {
         catalogo = new ArrayList<>();
         historial = new Stack<>();
         pedidos = new LinkedList<>();
-        usuarios = new HashMap<>();
+        carrito = new ArrayList<>();
 
-        // Usuario de ejemplo
-        usuarios.put("admin", "1234");
+        // Intentar cargar usuarios desde archivo
+        usuarios = UsuarioDatos.cargarUsuarios();
+
+        // Si la carga falla (null), inicializar y guardar un usuario admin
+        if (usuarios == null || usuarios.isEmpty()) {
+            usuarios = new ArrayList<>();
+            Usuario admin = new Usuario("admin", "admin", "admin", "admin", "admin", "admin@email.com");
+            usuarios.add(admin);
+            UsuarioDatos.guardarUsuarios(usuarios);
+        }
     }
 
-    //LOGIN
+    // ============ LOGIN ============
     public boolean validarUsuario(String user, String pass) {
-        return usuarios.containsKey(user) && usuarios.get(user).equals(pass);
+        for (Usuario u : usuarios) {
+            if (u.getUsername().equals(user) && u.getContraseña().equals(pass)) {
+                return true;
+            }
+        }
+        return false;
     }
 
-    //CATALOGO
+    public Usuario getUsuarioPorCredenciales(String username, String password) {
+        for (Usuario u : usuarios) {
+            if (u.getUsername().equals(username) && u.getContraseña().equals(password)) {
+                return u;
+            }
+        }
+        return null;
+    }
+
+    public ArrayList<Usuario> getUsuarios() {
+        return usuarios;
+    }
+
+    public void setUsuarios(ArrayList<Usuario> usuarios) {
+        this.usuarios = usuarios;
+        UsuarioDatos.guardarUsuarios(usuarios); // Guardar al modificar
+    }
+
+    public void agregarUsuario(Usuario u) {
+        if (usuarios == null) {
+            usuarios = new ArrayList<>();
+        }
+        usuarios.add(u);
+        UsuarioDatos.guardarUsuarios(usuarios);
+    }
+
+    // ============ CATÁLOGO ============
     public void agregarPeluche(Peluche p) {
         catalogo.add(p);
     }
@@ -34,7 +73,7 @@ public class Tienda {
         return catalogo;
     }
 
-    //HISTORIAL (PILA)
+    // ============ HISTORIAL ============
     public void verProducto(Peluche p) {
         historial.push(p);
     }
@@ -43,7 +82,7 @@ public class Tienda {
         return historial;
     }
 
-    //PEDIDOS (COLA)
+    // ============ PEDIDOS ============
     public void agregarPedido(Peluche p) {
         pedidos.add(p);
     }
@@ -52,7 +91,20 @@ public class Tienda {
         return pedidos;
     }
 
-    //ARCHIVOS
+    // ============ CARRITO ============
+    public void agregarAlCarrito(Peluche p) {
+        carrito.add(p);
+    }
+
+    public ArrayList<Peluche> getCarrito() {
+        return carrito;
+    }
+
+    public void limpiarCarrito() {
+        carrito.clear();
+    }
+
+    // ============ ARCHIVOS ============
     public void guardarCatalogo() throws IOException {
         ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream("catalogo.dat"));
         out.writeObject(catalogo);
@@ -67,18 +119,4 @@ public class Tienda {
             in.close();
         }
     }
-    private ArrayList<Peluche> carrito = new ArrayList<>();
-
-public void agregarAlCarrito(Peluche p) {
-    carrito.add(p);
-}
-
-public ArrayList<Peluche> getCarrito() {
-    return carrito;
-}
-
-public void limpiarCarrito() {
-    carrito.clear();
-}
-
 }

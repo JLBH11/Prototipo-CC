@@ -10,16 +10,18 @@ import java.awt.Color;
 import java.util.ArrayList;
 import javax.swing.JOptionPane;
 import javax.swing.JOptionPane;
+import modelo.Tienda;
 
 
 public class jFrmRegistrarU extends javax.swing.JFrame {
-
-    public jFrmRegistrarU() {
-        initComponents();
-        setLocationRelativeTo(null);
-
-        getContentPane().setBackground(new Color(250, 218, 221));
-    }
+private Tienda tienda;
+    
+    public jFrmRegistrarU(Tienda tienda) {
+    initComponents();
+    setLocationRelativeTo(null);
+    getContentPane().setBackground(new Color(250, 218, 221));
+    this.tienda = tienda;
+}
 
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
@@ -223,21 +225,35 @@ public class jFrmRegistrarU extends javax.swing.JFrame {
     }//GEN-LAST:event_txtEmailActionPerformed
 
     private void jButtonRegActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonRegActionPerformed
-// Captura los datos desde los campos
-   String username = txtUsuario.getText();
-String contraseña = txtClave.getText();
-String nombres = txtNombres.getText();
-String apellidos = txtApellidos.getText();
-String telefono = txtTelefono.getText();
-String email = txtEmail.getText();
+String username = txtUsuario.getText().trim();
+String contraseña = txtClave.getText().trim();
+String nombres = txtNombres.getText().trim();
+String apellidos = txtApellidos.getText().trim();
+String telefono = txtTelefono.getText().trim();
+String email = txtEmail.getText().trim();
 
+if (username.isEmpty() || contraseña.isEmpty() || nombres.isEmpty()
+    || apellidos.isEmpty() || telefono.isEmpty() || email.isEmpty()) {
+    JOptionPane.showMessageDialog(this, "Todos los campos son obligatorios");
+    return;
+}
+
+// Verificar si ya existe
+for (Usuario u : tienda.getUsuarios()) {
+    if (u.getUsername().equals(username)) {
+        JOptionPane.showMessageDialog(this, "Ese nombre de usuario ya está registrado.");
+        return;
+    }
+}
+
+// Crear y guardar
 Usuario nuevo = new Usuario(username, contraseña, nombres, apellidos, telefono, email);
-ArrayList<Usuario> lista = UsuarioDatos.cargarUsuarios();
-lista.add(nuevo);
-UsuarioDatos.guardarUsuarios(lista);
+tienda.agregarUsuario(nuevo);
 
 JOptionPane.showMessageDialog(this, "Usuario registrado exitosamente");
-this.dispose(); // Cierra el formulario
+System.out.println("Usuario guardado: " + nuevo.getUsername() + " / " + nuevo.getContraseña());
+
+this.dispose();
 
 
         
@@ -262,37 +278,7 @@ this.dispose(); // Cierra el formulario
     /**
      * @param args the command line arguments
      */
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(jFrmRegistrarU.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(jFrmRegistrarU.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(jFrmRegistrarU.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(jFrmRegistrarU.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
-
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new jFrmRegistrarU().setVisible(true);
-            }
-        });
-    }
+    
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButtonLimp;

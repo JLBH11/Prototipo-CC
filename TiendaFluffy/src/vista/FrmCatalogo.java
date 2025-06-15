@@ -17,13 +17,19 @@ import java.util.List;
 import java.util.ArrayList;
 
 import java.awt.Image;
+import java.io.IOException;
 
 import java.util.ArrayList;
+import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
+import javax.swing.JButton;
+import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
+import modelo.TiendaDatos;
+import modelo.UsuarioDatos;
 
 /**
  *
@@ -31,44 +37,53 @@ import javax.swing.JScrollPane;
  */
 
 public class FrmCatalogo extends javax.swing.JFrame {
-    private Tienda tienda = new Tienda();
-      private Usuario usuario;
+    private Tienda tienda;
+    private Usuario usuarioActual;
+    private ArrayList<Peluche> peluchesVisualizados;
 
     /**
      * Creates new form FrmCatalogo
      */
-  public FrmCatalogo(Usuario usuario) {
-    this.usuario = usuario;
+   public FrmCatalogo(Tienda tienda, Usuario usuario) {
+       this.usuarioActual = usuario;
+        this.tienda = tienda;
+        this.peluchesVisualizados = new ArrayList<>();
+    
     initComponents(); // primero los componentes gráficos
+  panelCatalogo.setPreferredSize(new Dimension(1033, 3200));
+        scrollCatalogo.setViewportView(panelCatalogo);
+        panelCatalogo.revalidate();
+        panelCatalogo.repaint();
 
-  panelCatalogo.setPreferredSize(new Dimension(1033, 3200));  // ← Aumenta este valor si no es suficiente
-scrollCatalogo.setViewportView(panelCatalogo);
 
-
-// Refresca los cambios en pantalla
-panelCatalogo.revalidate();
-panelCatalogo.repaint();
 
     // Cargar logo
     cargarImagen(jLabel57, "/Imagenes/Logo.png");
 
-    // Cargar peluches desde archivo (si existen)
     try {
-        tienda.cargarCatalogo();
-    } catch (Exception ex) {
-        ex.printStackTrace();
-    }
+            tienda.cargarCatalogo();
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+    JOptionPane.showMessageDialog(this, "Bienvenido, " + usuarioActual.getNombres());
 cargarPeluches();
 
-    JOptionPane.showMessageDialog(this, "Bienvenido, " + usuario.getNombres());
+  
 
-    // Crear panel visual para los peluches
-    JPanel panelPeluches = new JPanel();
-    panelPeluches.setLayout(new FlowLayout());
-    panelPeluches.setBackground(Color.WHITE);
+    
+    btnFavorito1.addActionListener(e -> marcarComoFavorito(0));
+        btnFavorito2.addActionListener(e -> marcarComoFavorito(1));
+        btnFavorito3.addActionListener(e -> marcarComoFavorito(2));
+        btnFavorito4.addActionListener(e -> marcarComoFavorito(3));
+        btnFavorito5.addActionListener(e -> marcarComoFavorito(4));
+        btnFavorito6.addActionListener(e -> marcarComoFavorito(5));
+    
+
+
 
 
 }
+   
 
   
 
@@ -91,7 +106,7 @@ cargarPeluches();
         jButton3 = new javax.swing.JButton();
         jButton4 = new javax.swing.JButton();
         jButton6 = new javax.swing.JButton();
-        jButton8 = new javax.swing.JButton();
+        btnVerFavoritos = new javax.swing.JButton();
         jButton9 = new javax.swing.JButton();
         jButton10 = new javax.swing.JButton();
         jPanel1 = new javax.swing.JPanel();
@@ -168,7 +183,42 @@ cargarPeluches();
         lvlCategoria6 = new javax.swing.JLabel();
         lblcd6 = new javax.swing.JLabel();
         btnFavorito6 = new javax.swing.JButton();
+        jPanel18 = new javax.swing.JPanel();
+        jButton25 = new javax.swing.JButton();
+        lvlCalificacion7 = new javax.swing.JLabel();
+        jLabel17 = new javax.swing.JLabel();
+        lvlNombre7 = new javax.swing.JLabel();
+        lvlPrecio7 = new javax.swing.JLabel();
+        lvlCategoria7 = new javax.swing.JLabel();
+        lblcd7 = new javax.swing.JLabel();
         btnFavorito7 = new javax.swing.JButton();
+        jPanel19 = new javax.swing.JPanel();
+        jButton26 = new javax.swing.JButton();
+        lvlCalificacion8 = new javax.swing.JLabel();
+        jLabel18 = new javax.swing.JLabel();
+        lvlNombre8 = new javax.swing.JLabel();
+        lvlPrecio8 = new javax.swing.JLabel();
+        lvlCategoria8 = new javax.swing.JLabel();
+        lblcd8 = new javax.swing.JLabel();
+        btnFavorito8 = new javax.swing.JButton();
+        jPanel20 = new javax.swing.JPanel();
+        jButton27 = new javax.swing.JButton();
+        lvlCalificacion9 = new javax.swing.JLabel();
+        jLabel19 = new javax.swing.JLabel();
+        lvlNombre9 = new javax.swing.JLabel();
+        lvlPrecio9 = new javax.swing.JLabel();
+        lvlCategoria9 = new javax.swing.JLabel();
+        lblcd9 = new javax.swing.JLabel();
+        btnFavorito9 = new javax.swing.JButton();
+        jPanel21 = new javax.swing.JPanel();
+        jButton28 = new javax.swing.JButton();
+        lvlCalificacion10 = new javax.swing.JLabel();
+        jLabel20 = new javax.swing.JLabel();
+        lvlNombre10 = new javax.swing.JLabel();
+        lvlPrecio10 = new javax.swing.JLabel();
+        lvlCategoria10 = new javax.swing.JLabel();
+        lblcd10 = new javax.swing.JLabel();
+        btnFavorito10 = new javax.swing.JButton();
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -200,7 +250,12 @@ cargarPeluches();
 
         jButton6.setText("CARRITO");
 
-        jButton8.setText("DESEOS");
+        btnVerFavoritos.setText("FAVORITOS");
+        btnVerFavoritos.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnVerFavoritosActionPerformed(evt);
+            }
+        });
 
         jButton9.setText("PEDIDOS");
 
@@ -375,11 +430,14 @@ cargarPeluches();
 
         lvlCategoria1.setText("Osos");
 
-        lblcd1.setText("jLabel15");
-
         btnFavorito1.setBackground(new java.awt.Color(204, 204, 204));
         btnFavorito1.setText("❤");
         btnFavorito1.setBorder(null);
+        btnFavorito1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnFavorito1ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
@@ -459,11 +517,14 @@ cargarPeluches();
 
         lvlCategoria2.setText("Osos");
 
-        lblcd2.setText("jLabel15");
-
         btnFavorito2.setBackground(new java.awt.Color(204, 204, 204));
         btnFavorito2.setText("❤");
         btnFavorito2.setBorder(null);
+        btnFavorito2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnFavorito2ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
         jPanel4.setLayout(jPanel4Layout);
@@ -532,11 +593,14 @@ cargarPeluches();
 
         lvlCategoria4.setText("Osos");
 
-        lblcd4.setText("jLabel15");
-
         btnFavorito4.setBackground(new java.awt.Color(204, 204, 204));
         btnFavorito4.setText("❤");
         btnFavorito4.setBorder(null);
+        btnFavorito4.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnFavorito4ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel12Layout = new javax.swing.GroupLayout(jPanel12);
         jPanel12.setLayout(jPanel12Layout);
@@ -605,11 +669,14 @@ cargarPeluches();
 
         lvlCategoria3.setText("Osos");
 
-        lblcd3.setText("jLabel15");
-
         btnFavorito3.setBackground(new java.awt.Color(204, 204, 204));
         btnFavorito3.setText("❤");
         btnFavorito3.setBorder(null);
+        btnFavorito3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnFavorito3ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel13Layout = new javax.swing.GroupLayout(jPanel13);
         jPanel13.setLayout(jPanel13Layout);
@@ -678,11 +745,14 @@ cargarPeluches();
 
         lvlCategoria5.setText("Osos");
 
-        lblcd5.setText("jLabel15");
-
         btnFavorito5.setBackground(new java.awt.Color(204, 204, 204));
         btnFavorito5.setText("❤");
         btnFavorito5.setBorder(null);
+        btnFavorito5.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnFavorito5ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel16Layout = new javax.swing.GroupLayout(jPanel16);
         jPanel16.setLayout(jPanel16Layout);
@@ -751,11 +821,14 @@ cargarPeluches();
 
         lvlCategoria6.setText("Osos");
 
-        lblcd6.setText("jLabel15");
-
         btnFavorito6.setBackground(new java.awt.Color(204, 204, 204));
         btnFavorito6.setText("❤");
         btnFavorito6.setBorder(null);
+        btnFavorito6.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnFavorito6ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel17Layout = new javax.swing.GroupLayout(jPanel17);
         jPanel17.setLayout(jPanel17Layout);
@@ -805,6 +878,25 @@ cargarPeluches();
                 .addContainerGap())
         );
 
+        jPanel18.setBackground(new java.awt.Color(204, 204, 204));
+        jPanel18.setPreferredSize(new java.awt.Dimension(345, 339));
+
+        jButton25.setBackground(new java.awt.Color(0, 0, 0));
+        jButton25.setForeground(new java.awt.Color(255, 255, 255));
+        jButton25.setText("AGREGAR AL CARRITO");
+
+        lvlCalificacion7.setText("⭐⭐⭐⭐⭐");
+
+        jLabel17.setBackground(new java.awt.Color(255, 0, 51));
+        jLabel17.setForeground(new java.awt.Color(255, 0, 51));
+        jLabel17.setText("OFERTA");
+
+        lvlNombre7.setText("OSO TEDDY CLASICO");
+
+        lvlPrecio7.setText("75000");
+
+        lvlCategoria7.setText("Osos");
+
         btnFavorito7.setBackground(new java.awt.Color(204, 204, 204));
         btnFavorito7.setText("❤");
         btnFavorito7.setBorder(null);
@@ -813,6 +905,282 @@ cargarPeluches();
                 btnFavorito7ActionPerformed(evt);
             }
         });
+
+        javax.swing.GroupLayout jPanel18Layout = new javax.swing.GroupLayout(jPanel18);
+        jPanel18.setLayout(jPanel18Layout);
+        jPanel18Layout.setHorizontalGroup(
+            jPanel18Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel18Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel18Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jButton25, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(jPanel18Layout.createSequentialGroup()
+                        .addGroup(jPanel18Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(lvlNombre7, javax.swing.GroupLayout.PREFERRED_SIZE, 182, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(lvlPrecio7, javax.swing.GroupLayout.PREFERRED_SIZE, 71, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(lvlCategoria7, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(lvlCalificacion7)
+                            .addGroup(jPanel18Layout.createSequentialGroup()
+                                .addComponent(jLabel17)
+                                .addGap(262, 262, 262)
+                                .addComponent(btnFavorito7)))
+                        .addGap(0, 13, Short.MAX_VALUE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel18Layout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addComponent(lblcd7, javax.swing.GroupLayout.PREFERRED_SIZE, 252, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(35, 35, 35)))
+                .addContainerGap())
+        );
+        jPanel18Layout.setVerticalGroup(
+            jPanel18Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel18Layout.createSequentialGroup()
+                .addComponent(jLabel17)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel18Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel18Layout.createSequentialGroup()
+                        .addComponent(btnFavorito7)
+                        .addGap(0, 154, Short.MAX_VALUE))
+                    .addComponent(lblcd7, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(18, 18, 18)
+                .addComponent(lvlNombre7)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(lvlCalificacion7)
+                .addGap(2, 2, 2)
+                .addComponent(lvlCategoria7)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(lvlPrecio7)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jButton25, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
+        );
+
+        jPanel19.setBackground(new java.awt.Color(204, 204, 204));
+        jPanel19.setPreferredSize(new java.awt.Dimension(345, 339));
+
+        jButton26.setBackground(new java.awt.Color(0, 0, 0));
+        jButton26.setForeground(new java.awt.Color(255, 255, 255));
+        jButton26.setText("AGREGAR AL CARRITO");
+
+        lvlCalificacion8.setText("⭐⭐⭐⭐⭐");
+
+        jLabel18.setBackground(new java.awt.Color(255, 0, 51));
+        jLabel18.setForeground(new java.awt.Color(255, 0, 51));
+        jLabel18.setText("OFERTA");
+
+        lvlNombre8.setText("OSO TEDDY CLASICO");
+
+        lvlPrecio8.setText("75000");
+
+        lvlCategoria8.setText("Osos");
+
+        btnFavorito8.setBackground(new java.awt.Color(204, 204, 204));
+        btnFavorito8.setText("❤");
+        btnFavorito8.setBorder(null);
+        btnFavorito8.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnFavorito8ActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout jPanel19Layout = new javax.swing.GroupLayout(jPanel19);
+        jPanel19.setLayout(jPanel19Layout);
+        jPanel19Layout.setHorizontalGroup(
+            jPanel19Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel19Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel19Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jButton26, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(jPanel19Layout.createSequentialGroup()
+                        .addGroup(jPanel19Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(lvlNombre8, javax.swing.GroupLayout.PREFERRED_SIZE, 182, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(lvlPrecio8, javax.swing.GroupLayout.PREFERRED_SIZE, 71, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(lvlCategoria8, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(lvlCalificacion8)
+                            .addGroup(jPanel19Layout.createSequentialGroup()
+                                .addComponent(jLabel18)
+                                .addGap(262, 262, 262)
+                                .addComponent(btnFavorito8)))
+                        .addGap(0, 13, Short.MAX_VALUE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel19Layout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addComponent(lblcd8, javax.swing.GroupLayout.PREFERRED_SIZE, 252, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(35, 35, 35)))
+                .addContainerGap())
+        );
+        jPanel19Layout.setVerticalGroup(
+            jPanel19Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel19Layout.createSequentialGroup()
+                .addComponent(jLabel18)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel19Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel19Layout.createSequentialGroup()
+                        .addComponent(btnFavorito8)
+                        .addGap(0, 154, Short.MAX_VALUE))
+                    .addComponent(lblcd8, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(18, 18, 18)
+                .addComponent(lvlNombre8)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(lvlCalificacion8)
+                .addGap(2, 2, 2)
+                .addComponent(lvlCategoria8)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(lvlPrecio8)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jButton26, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
+        );
+
+        jPanel20.setBackground(new java.awt.Color(204, 204, 204));
+        jPanel20.setPreferredSize(new java.awt.Dimension(345, 339));
+
+        jButton27.setBackground(new java.awt.Color(0, 0, 0));
+        jButton27.setForeground(new java.awt.Color(255, 255, 255));
+        jButton27.setText("AGREGAR AL CARRITO");
+
+        lvlCalificacion9.setText("⭐⭐⭐⭐⭐");
+
+        jLabel19.setBackground(new java.awt.Color(255, 0, 51));
+        jLabel19.setForeground(new java.awt.Color(255, 0, 51));
+        jLabel19.setText("OFERTA");
+
+        lvlNombre9.setText("OSO TEDDY CLASICO");
+
+        lvlPrecio9.setText("75000");
+
+        lvlCategoria9.setText("Osos");
+
+        btnFavorito9.setBackground(new java.awt.Color(204, 204, 204));
+        btnFavorito9.setText("❤");
+        btnFavorito9.setBorder(null);
+        btnFavorito9.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnFavorito9ActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout jPanel20Layout = new javax.swing.GroupLayout(jPanel20);
+        jPanel20.setLayout(jPanel20Layout);
+        jPanel20Layout.setHorizontalGroup(
+            jPanel20Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel20Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel20Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jButton27, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(jPanel20Layout.createSequentialGroup()
+                        .addGroup(jPanel20Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(lvlNombre9, javax.swing.GroupLayout.PREFERRED_SIZE, 182, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(lvlPrecio9, javax.swing.GroupLayout.PREFERRED_SIZE, 71, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(lvlCategoria9, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(lvlCalificacion9)
+                            .addGroup(jPanel20Layout.createSequentialGroup()
+                                .addComponent(jLabel19)
+                                .addGap(262, 262, 262)
+                                .addComponent(btnFavorito9)))
+                        .addGap(0, 13, Short.MAX_VALUE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel20Layout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addComponent(lblcd9, javax.swing.GroupLayout.PREFERRED_SIZE, 252, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(35, 35, 35)))
+                .addContainerGap())
+        );
+        jPanel20Layout.setVerticalGroup(
+            jPanel20Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel20Layout.createSequentialGroup()
+                .addComponent(jLabel19)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel20Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel20Layout.createSequentialGroup()
+                        .addComponent(btnFavorito9)
+                        .addGap(0, 154, Short.MAX_VALUE))
+                    .addComponent(lblcd9, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(18, 18, 18)
+                .addComponent(lvlNombre9)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(lvlCalificacion9)
+                .addGap(2, 2, 2)
+                .addComponent(lvlCategoria9)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(lvlPrecio9)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jButton27, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
+        );
+
+        jPanel21.setBackground(new java.awt.Color(204, 204, 204));
+        jPanel21.setPreferredSize(new java.awt.Dimension(345, 339));
+
+        jButton28.setBackground(new java.awt.Color(0, 0, 0));
+        jButton28.setForeground(new java.awt.Color(255, 255, 255));
+        jButton28.setText("AGREGAR AL CARRITO");
+
+        lvlCalificacion10.setText("⭐⭐⭐⭐⭐");
+
+        jLabel20.setBackground(new java.awt.Color(255, 0, 51));
+        jLabel20.setForeground(new java.awt.Color(255, 0, 51));
+        jLabel20.setText("OFERTA");
+
+        lvlNombre10.setText("OSO TEDDY CLASICO");
+
+        lvlPrecio10.setText("75000");
+
+        lvlCategoria10.setText("Osos");
+
+        btnFavorito10.setBackground(new java.awt.Color(204, 204, 204));
+        btnFavorito10.setText("❤");
+        btnFavorito10.setBorder(null);
+        btnFavorito10.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnFavorito10ActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout jPanel21Layout = new javax.swing.GroupLayout(jPanel21);
+        jPanel21.setLayout(jPanel21Layout);
+        jPanel21Layout.setHorizontalGroup(
+            jPanel21Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel21Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel21Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jButton28, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(jPanel21Layout.createSequentialGroup()
+                        .addGroup(jPanel21Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(lvlNombre10, javax.swing.GroupLayout.PREFERRED_SIZE, 182, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(lvlPrecio10, javax.swing.GroupLayout.PREFERRED_SIZE, 71, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(lvlCategoria10, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(lvlCalificacion10)
+                            .addGroup(jPanel21Layout.createSequentialGroup()
+                                .addComponent(jLabel20)
+                                .addGap(262, 262, 262)
+                                .addComponent(btnFavorito10)))
+                        .addGap(0, 13, Short.MAX_VALUE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel21Layout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addComponent(lblcd10, javax.swing.GroupLayout.PREFERRED_SIZE, 252, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(35, 35, 35)))
+                .addContainerGap())
+        );
+        jPanel21Layout.setVerticalGroup(
+            jPanel21Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel21Layout.createSequentialGroup()
+                .addComponent(jLabel20)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel21Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel21Layout.createSequentialGroup()
+                        .addComponent(btnFavorito10)
+                        .addGap(0, 154, Short.MAX_VALUE))
+                    .addComponent(lblcd10, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(18, 18, 18)
+                .addComponent(lvlNombre10)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(lvlCalificacion10)
+                .addGap(2, 2, 2)
+                .addComponent(lvlCategoria10)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(lvlPrecio10)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jButton28, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
+        );
 
         javax.swing.GroupLayout panelCatalogoLayout = new javax.swing.GroupLayout(panelCatalogo);
         panelCatalogo.setLayout(panelCatalogoLayout);
@@ -828,29 +1196,11 @@ cargarPeluches();
                 .addContainerGap(60, Short.MAX_VALUE)
                 .addGroup(panelCatalogoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(javax.swing.GroupLayout.Alignment.LEADING, panelCatalogoLayout.createSequentialGroup()
-                        .addGap(15, 15, 15)
-                        .addComponent(jLabel57, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(183, 183, 183)
-                        .addComponent(jLabel2)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(txtBuscar, javax.swing.GroupLayout.PREFERRED_SIZE, 325, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jButton14)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(btnFavorito7, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(jButton2)
-                        .addGap(18, 18, 18)
-                        .addComponent(jButton3)
-                        .addGap(18, 18, 18)
-                        .addComponent(jButton4)
-                        .addGap(31, 31, 31))
-                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, panelCatalogoLayout.createSequentialGroup()
                         .addComponent(jButton10, javax.swing.GroupLayout.PREFERRED_SIZE, 197, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
                         .addComponent(jButton6, javax.swing.GroupLayout.PREFERRED_SIZE, 197, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(28, 28, 28)
-                        .addComponent(jButton8, javax.swing.GroupLayout.PREFERRED_SIZE, 197, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(btnVerFavoritos, javax.swing.GroupLayout.PREFERRED_SIZE, 197, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
                         .addComponent(jButton9, javax.swing.GroupLayout.PREFERRED_SIZE, 197, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(105, 107, Short.MAX_VALUE))
@@ -863,13 +1213,33 @@ cargarPeluches();
                                 .addGap(21, 21, 21)
                                 .addGroup(panelCatalogoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(jPanel16, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(jPanel13, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                                    .addComponent(jPanel13, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jPanel18, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jPanel20, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addGroup(panelCatalogoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jPanel12, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jPanel4, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jPanel17, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(jPanel17, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jPanel19, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jPanel21, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(85, 85, 85))))
+            .addGroup(panelCatalogoLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jLabel57, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(252, 252, 252)
+                .addComponent(jLabel2)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(txtBuscar, javax.swing.GroupLayout.PREFERRED_SIZE, 325, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jButton14)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jButton2)
+                .addGap(18, 18, 18)
+                .addComponent(jButton3)
+                .addGap(18, 18, 18)
+                .addComponent(jButton4)
+                .addGap(31, 31, 31))
             .addGroup(panelCatalogoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(panelCatalogoLayout.createSequentialGroup()
                     .addContainerGap()
@@ -897,9 +1267,6 @@ cargarPeluches();
             .addGroup(panelCatalogoLayout.createSequentialGroup()
                 .addGroup(panelCatalogoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(panelCatalogoLayout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(jLabel57, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(panelCatalogoLayout.createSequentialGroup()
                         .addGap(11, 11, 11)
                         .addGroup(panelCatalogoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(panelCatalogoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -909,12 +1276,15 @@ cargarPeluches();
                                 .addComponent(jButton4)
                                 .addComponent(jButton3)
                                 .addComponent(jButton2)
-                                .addComponent(jButton14)
-                                .addComponent(btnFavorito7)))))
-                .addGap(26, 26, 26)
+                                .addComponent(jButton14)))
+                        .addGap(68, 68, 68))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelCatalogoLayout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(jLabel57, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)))
                 .addGroup(panelCatalogoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButton9)
-                    .addComponent(jButton8)
+                    .addComponent(btnVerFavoritos)
                     .addComponent(jButton6)
                     .addComponent(jButton10))
                 .addGroup(panelCatalogoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -939,7 +1309,15 @@ cargarPeluches();
                 .addGroup(panelCatalogoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jPanel16, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jPanel17, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(206, Short.MAX_VALUE))
+                .addGap(77, 77, 77)
+                .addGroup(panelCatalogoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jPanel18, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jPanel19, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(92, 92, 92)
+                .addGroup(panelCatalogoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jPanel20, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jPanel21, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(49, Short.MAX_VALUE))
             .addGroup(panelCatalogoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(panelCatalogoLayout.createSequentialGroup()
                     .addContainerGap()
@@ -953,7 +1331,7 @@ cargarPeluches();
                         .addComponent(jPanel8, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGap(64, 64, 64)
                     .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addContainerGap(952, Short.MAX_VALUE)))
+                    .addContainerGap(1642, Short.MAX_VALUE)))
         );
 
         scrollCatalogo.setViewportView(panelCatalogo);
@@ -969,8 +1347,8 @@ cargarPeluches();
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addComponent(scrollCatalogo, javax.swing.GroupLayout.PREFERRED_SIZE, 1883, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addGroup(layout.createSequentialGroup()
+                .addComponent(scrollCatalogo, javax.swing.GroupLayout.PREFERRED_SIZE, 2573, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(0, 0, Short.MAX_VALUE))
         );
 
@@ -1013,10 +1391,119 @@ cargarPeluches();
         
     }//GEN-LAST:event_jButton14ActionPerformed
 
-    private void btnFavorito7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnFavorito7ActionPerformed
+    private void btnFavorito1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnFavorito1ActionPerformed
+btnFavorito1.addActionListener(e -> {
+    int indice = 0;
+    if (indice < tienda.getCatalogo().size()) {
+        Peluche peluche = tienda.getCatalogo().get(indice);
+        usuarioActual.agregarFavorito(peluche);
+        JOptionPane.showMessageDialog(this, peluche.getNombre() + " fue agregado a tus favoritos.");
+    } else {
+        JOptionPane.showMessageDialog(this, "No hay peluche en la posición 1.");
+    }
+});
 
         // TODO add your handling code here:
+    }//GEN-LAST:event_btnFavorito1ActionPerformed
+
+    private void btnFavorito2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnFavorito2ActionPerformed
+btnFavorito2.addActionListener(e -> {
+    int indice = 1;
+    if (indice < tienda.getCatalogo().size()) {
+        Peluche peluche = tienda.getCatalogo().get(indice);
+        usuarioActual.agregarFavorito(peluche);
+        JOptionPane.showMessageDialog(this, peluche.getNombre() + " fue agregado a tus favoritos.");
+    } else {
+        JOptionPane.showMessageDialog(this, "No hay peluche en la posición 2.");
+    }
+});
+
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnFavorito2ActionPerformed
+
+    private void btnFavorito3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnFavorito3ActionPerformed
+btnFavorito3.addActionListener(e -> {
+    int indice = 2;
+    if (indice < tienda.getCatalogo().size()) {
+        Peluche peluche = tienda.getCatalogo().get(indice);
+        usuarioActual.agregarFavorito(peluche);
+        JOptionPane.showMessageDialog(this, peluche.getNombre() + " fue agregado a tus favoritos.");
+    } else {
+        JOptionPane.showMessageDialog(this, "No hay peluche en la posición 3.");
+    }
+});
+
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnFavorito3ActionPerformed
+
+    private void btnFavorito4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnFavorito4ActionPerformed
+btnFavorito4.addActionListener(e -> {
+    int indice = 3;
+    if (indice < tienda.getCatalogo().size()) {
+        Peluche peluche = tienda.getCatalogo().get(indice);
+        usuarioActual.agregarFavorito(peluche);
+        JOptionPane.showMessageDialog(this, peluche.getNombre() + " fue agregado a tus favoritos.");
+    } else {
+        JOptionPane.showMessageDialog(this, "No hay peluche en la posición 4.");
+    }
+});
+
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnFavorito4ActionPerformed
+
+    private void btnFavorito5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnFavorito5ActionPerformed
+btnFavorito5.addActionListener(e -> {
+    int indice = 4;
+    if (indice < tienda.getCatalogo().size()) {
+        Peluche peluche = tienda.getCatalogo().get(indice);
+        usuarioActual.agregarFavorito(peluche);
+        JOptionPane.showMessageDialog(this, peluche.getNombre() + " fue agregado a tus favoritos.");
+    } else {
+        JOptionPane.showMessageDialog(this, "No hay peluche en la posición 5.");
+    }
+});
+
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnFavorito5ActionPerformed
+
+    private void btnFavorito6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnFavorito6ActionPerformed
+btnFavorito6.addActionListener(e -> {
+    int indice = 5;
+    if (indice < tienda.getCatalogo().size()) {
+        Peluche peluche = tienda.getCatalogo().get(indice);
+        usuarioActual.agregarFavorito(peluche);
+        JOptionPane.showMessageDialog(this, peluche.getNombre() + " fue agregado a tus favoritos.");
+    } else {
+        JOptionPane.showMessageDialog(this, "No hay peluche en la posición 6.");
+    }
+});
+
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnFavorito6ActionPerformed
+
+    private void btnVerFavoritosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVerFavoritosActionPerformed
+
+btnVerFavoritos.addActionListener(e -> abrirFavoritos());
+
+
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnVerFavoritosActionPerformed
+
+    private void btnFavorito7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnFavorito7ActionPerformed
+        // TODO add your handling code here:
     }//GEN-LAST:event_btnFavorito7ActionPerformed
+
+    private void btnFavorito8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnFavorito8ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnFavorito8ActionPerformed
+
+    private void btnFavorito9ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnFavorito9ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnFavorito9ActionPerformed
+
+    private void btnFavorito10ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnFavorito10ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnFavorito10ActionPerformed
 
   private void cargarImagen(javax.swing.JLabel etiqueta, String ruta) {
     java.net.URL imgURL = getClass().getResource(ruta);
@@ -1050,34 +1537,99 @@ ArrayList<Peluche> listaPeluches = new ArrayList<>();
 
 // Este método se llama UNA VEZ (en el constructor)
 
- private void cargarPeluches() {
-        ArrayList<Peluche> lista = tienda.getCatalogo();
+private void cargarPeluches() {
+    peluchesVisualizados.clear(); // Limpiar la lista
 
-        // Limitar a 6 peluches máximo para tus 6 paneles
-        for (int i = 0; i < 6; i++) {
-            if (i < lista.size()) {
-                Peluche p = lista.get(i);
-                switch(i) {
-                    case 0: actualizarPanel(p, lblcd1, lvlNombre1, lvlPrecio1, lvlCategoria1, lvlCalificacion1); break;
-                    case 1: actualizarPanel(p, lblcd2, lvlNombre2, lvlPrecio2, lvlCategoria2, lvlCalificacion2); break;
-                    case 2: actualizarPanel(p, lblcd3, lvlNombre3, lvlPrecio3, lvlCategoria3, lvlCalificacion3); break;
-                    case 3: actualizarPanel(p, lblcd4, lvlNombre4, lvlPrecio4, lvlCategoria4, lvlCalificacion4); break;
-                    case 4: actualizarPanel(p, lblcd5, lvlNombre5, lvlPrecio5, lvlCategoria5, lvlCalificacion5); break;
-                    case 5: actualizarPanel(p, lblcd6, lvlNombre6, lvlPrecio6, lvlCategoria6, lvlCalificacion6); break;
-                }
-            } else {
-                // Limpiar panel si no hay peluche para ese índice
-                switch(i) {
-                    case 0: limpiarPanel(lblcd1, lvlNombre1, lvlPrecio1, lvlCategoria1, lvlCalificacion1); break;
-                    case 1: limpiarPanel(lblcd2, lvlNombre2, lvlPrecio2, lvlCategoria2, lvlCalificacion2); break;
-                    case 2: limpiarPanel(lblcd3, lvlNombre3, lvlPrecio3, lvlCategoria3, lvlCalificacion3); break;
-                    case 3: limpiarPanel(lblcd4, lvlNombre4, lvlPrecio4, lvlCategoria4, lvlCalificacion4); break;
-                    case 4: limpiarPanel(lblcd5, lvlNombre5, lvlPrecio5, lvlCategoria5, lvlCalificacion5); break;
-                    case 5: limpiarPanel(lblcd6, lvlNombre6, lvlPrecio6, lvlCategoria6, lvlCalificacion6); break;
-                }
-            }
+    ArrayList<Peluche> catalogo = tienda.getCatalogo();
+    int maxPeluches = Math.min(10, catalogo.size());
+
+    for (int i = 0; i < maxPeluches; i++) {
+        Peluche p = catalogo.get(i);
+        peluchesVisualizados.add(p);
+
+        String nombre = p.getNombre();
+        String precio = "$" + p.getPrecio();
+        String categoria = p.getCategoria();
+        String calificacion = "★ " + p.getCalificacion();
+        ImageIcon icono = cargarImagenDesdeArchivo(p.getImagenRuta(), 100, 100);
+
+        switch (i) {
+            case 0:
+                lvlNombre1.setText(nombre);
+                lvlPrecio1.setText(precio);
+                lvlCategoria1.setText(categoria);
+                lvlCalificacion1.setText(calificacion);
+                lblcd1.setIcon(icono);
+                break;
+            case 1:
+                lvlNombre2.setText(nombre);
+                lvlPrecio2.setText(precio);
+                lvlCategoria2.setText(categoria);
+                lvlCalificacion2.setText(calificacion);
+                lblcd2.setIcon(icono);
+                break;
+            case 2:
+                lvlNombre3.setText(nombre);
+                lvlPrecio3.setText(precio);
+                lvlCategoria3.setText(categoria);
+                lvlCalificacion3.setText(calificacion);
+                lblcd3.setIcon(icono);
+                break;
+            case 3:
+                lvlNombre4.setText(nombre);
+                lvlPrecio4.setText(precio);
+                lvlCategoria4.setText(categoria);
+                lvlCalificacion4.setText(calificacion);
+                lblcd4.setIcon(icono);
+                break;
+            case 4:
+                lvlNombre5.setText(nombre);
+                lvlPrecio5.setText(precio);
+                lvlCategoria5.setText(categoria);
+                lvlCalificacion5.setText(calificacion);
+                lblcd5.setIcon(icono);
+                break;
+            case 5:
+                lvlNombre6.setText(nombre);
+                lvlPrecio6.setText(precio);
+                lvlCategoria6.setText(categoria);
+                lvlCalificacion6.setText(calificacion);
+                lblcd6.setIcon(icono);
+                break;
+            case 6:
+                lvlNombre7.setText(nombre);
+                lvlPrecio7.setText(precio);
+                lvlCategoria7.setText(categoria);
+                lvlCalificacion7.setText(calificacion);
+                lblcd7.setIcon(icono);
+                break;
+            case 7:
+                lvlNombre8.setText(nombre);
+                lvlPrecio8.setText(precio);
+                lvlCategoria8.setText(categoria);
+                lvlCalificacion8.setText(calificacion);
+                lblcd8.setIcon(icono);
+                break;
+            case 8:
+                lvlNombre9.setText(nombre);
+                lvlPrecio9.setText(precio);
+                lvlCategoria9.setText(categoria);
+                lvlCalificacion9.setText(calificacion);
+                lblcd9.setIcon(icono);
+                break;
+            case 9:
+                lvlNombre10.setText(nombre);
+                lvlPrecio10.setText(precio);
+                lvlCategoria10.setText(categoria);
+                lvlCalificacion10.setText(calificacion);
+                lblcd10.setIcon(icono);
+                break;
         }
     }
+}
+
+
+
 
     private void actualizarPanel(Peluche p, JLabel lblImagen, JLabel lblNombre, JLabel lblPrecio, JLabel lblCategoria, JLabel lblCalificacion) {
         // Cargar imagen escalada
@@ -1103,79 +1655,117 @@ ArrayList<Peluche> listaPeluches = new ArrayList<>();
 
 public void mostrarPeluches() {
     ArrayList<Peluche> lista = tienda.getCatalogo();
+    JButton[] botones = {btnFavorito1, btnFavorito2, btnFavorito3, btnFavorito4, btnFavorito5,
+                         btnFavorito6, btnFavorito7, btnFavorito8, btnFavorito9, btnFavorito10};
 
-    if (lista.size() >= 1) {
-        Peluche p1 = lista.get(0);
-        lvlNombre1.setText(p1.getNombre());
-        lvlPrecio1.setText("$" + p1.getPrecio());
-        lvlCategoria1.setText(p1.getCategoria());
-        lvlCalificacion1.setText(p1.getCalificacion() + "★");
-        btnFavorito1.addActionListener(e -> {
-            usuario.agregarFavorito(p1);
-            JOptionPane.showMessageDialog(this, p1.getNombre() + " fue añadido a tus favoritos.");
-        });
-    }
+    JLabel[] nombres = {lvlNombre1, lvlNombre2, lvlNombre3, lvlNombre4, lvlNombre5,
+                        lvlNombre6, lvlNombre7, lvlNombre8, lvlNombre9, lvlNombre10};
 
-    if (lista.size() >= 2) {
-        Peluche p2 = lista.get(1);
-        lvlNombre2.setText(p2.getNombre());
-        lvlPrecio2.setText("$" + p2.getPrecio());
-        lvlCategoria2.setText(p2.getCategoria());
-        lvlCalificacion2.setText(p2.getCalificacion() + "★");
-        btnFavorito2.addActionListener(e -> {
-            usuario.agregarFavorito(p2);
-            JOptionPane.showMessageDialog(this, p2.getNombre() + " fue añadido a tus favoritos.");
-        });
-    }
+    JLabel[] precios = {lvlPrecio1, lvlPrecio2, lvlPrecio3, lvlPrecio4, lvlPrecio5,
+                        lvlPrecio6, lvlPrecio7, lvlPrecio8, lvlPrecio9, lvlPrecio10};
 
-    if (lista.size() >= 3) {
-        Peluche p3 = lista.get(2);
-        lvlNombre3.setText(p3.getNombre());
-        lvlPrecio3.setText("$" + p3.getPrecio());
-        lvlCategoria3.setText(p3.getCategoria());
-        lvlCalificacion3.setText(p3.getCalificacion() + "★");
-        btnFavorito3.addActionListener(e -> {
-            usuario.agregarFavorito(p3);
-            JOptionPane.showMessageDialog(this, p3.getNombre() + " fue añadido a tus favoritos.");
-        });
-    }
+    JLabel[] categorias = {lvlCategoria1, lvlCategoria2, lvlCategoria3, lvlCategoria4, lvlCategoria5,
+                           lvlCategoria6, lvlCategoria7, lvlCategoria8, lvlCategoria9, lvlCategoria10};
 
-    if (lista.size() >= 4) {
-        Peluche p4 = lista.get(3);
-        lvlNombre4.setText(p4.getNombre());
-        lvlPrecio4.setText("$" + p4.getPrecio());
-        lvlCategoria4.setText(p4.getCategoria());
-        lvlCalificacion4.setText(p4.getCalificacion() + "★");
-        btnFavorito4.addActionListener(e -> {
-            usuario.agregarFavorito(p4);
-            JOptionPane.showMessageDialog(this, p4.getNombre() + " fue añadido a tus favoritos.");
-        });
-    }
+    JLabel[] calificaciones = {lvlCalificacion1, lvlCalificacion2, lvlCalificacion3, lvlCalificacion4, lvlCalificacion5,
+                               lvlCalificacion6, lvlCalificacion7, lvlCalificacion8, lvlCalificacion9, lvlCalificacion10};
 
-    if (lista.size() >= 5) {
-        Peluche p5 = lista.get(4);
-        lvlNombre5.setText(p5.getNombre());
-        lvlPrecio5.setText("$" + p5.getPrecio());
-        lvlCategoria5.setText(p5.getCategoria());
-        lvlCalificacion5.setText(p5.getCalificacion() + "★");
-        btnFavorito5.addActionListener(e -> {
-            usuario.agregarFavorito(p5);
-            JOptionPane.showMessageDialog(this, p5.getNombre() + " fue añadido a tus favoritos.");
-        });
-    }
+    for (int i = 0; i < Math.min(10, lista.size()); i++) {
+        Peluche p = lista.get(i);
+        nombres[i].setText(p.getNombre());
+        precios[i].setText("$" + p.getPrecio());
+        categorias[i].setText(p.getCategoria());
+        calificaciones[i].setText(p.getCalificacion() + "★");
 
-    if (lista.size() >= 6) {
-        Peluche p6 = lista.get(5);
-        lvlNombre6.setText(p6.getNombre());
-        lvlPrecio6.setText("$" + p6.getPrecio());
-        lvlCategoria6.setText(p6.getCategoria());
-        lvlCalificacion6.setText(p6.getCalificacion() + "★");
-        btnFavorito6.addActionListener(e -> {
-            usuario.agregarFavorito(p6);
-            JOptionPane.showMessageDialog(this, p6.getNombre() + " fue añadido a tus favoritos.");
+        final int index = i;
+        botones[i].addActionListener(e -> {
+            usuarioActual.agregarFavorito(p);
+            UsuarioDatos.guardarFavoritosDe(usuarioActual);
+            JOptionPane.showMessageDialog(this, p.getNombre() + " fue añadido a tus favoritos.");
         });
     }
 }
+
+private void marcarComoFavorito(int index) {
+    Peluche peluche = tienda.getCatalogo().get(index);
+    if (!usuarioActual.getFavoritos().contains(peluche)) {
+        usuarioActual.getFavoritos().add(peluche);
+        UsuarioDatos.guardarFavoritosDe(usuarioActual); // ← Aquí guardas el cambio
+        JOptionPane.showMessageDialog(this, "Añadido a favoritos");
+    } else {
+        JOptionPane.showMessageDialog(this, "Ese peluche ya está en favoritos.");
+    }
+}
+
+
+private void abrirFavoritos() {
+    JFrame ventanaFavoritos = new JFrame("Mis Peluches Favoritos");
+    ventanaFavoritos.setSize(800, 600);
+    ventanaFavoritos.setLocationRelativeTo(this);
+    ventanaFavoritos.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+    
+    JPanel panel = new JPanel();
+    panel.setLayout(null);
+    panel.setPreferredSize(new Dimension(800, 1000)); // Ajusta según cantidad
+
+    JScrollPane scroll = new JScrollPane(panel);
+    scroll.setBounds(0, 0, 800, 600);
+    ventanaFavoritos.add(scroll);
+
+    ArrayList<Peluche> favoritos = usuarioActual.getFavoritos();
+
+    int x = 30, y = 30;
+    int ancho = 150, alto = 180;
+    int columnas = 3;
+    int contador = 0;
+
+    for (Peluche p : favoritos) {
+        JPanel tarjeta = new JPanel(null);
+        tarjeta.setBounds(x, y, ancho, alto);
+        tarjeta.setBorder(BorderFactory.createTitledBorder(p.getNombre()));
+
+        JLabel lblImg = new JLabel();
+        lblImg.setBounds(10, 20, 130, 80);
+        lblImg.setIcon(cargarImagenDesdeArchivo(p.getImagenRuta(), 130, 80));
+        tarjeta.add(lblImg);
+
+        JLabel lblPrecio = new JLabel("Precio: $" + p.getPrecio());
+        lblPrecio.setBounds(10, 105, 130, 20);
+        tarjeta.add(lblPrecio);
+
+        JLabel lblCategoria = new JLabel("Categoría: " + p.getCategoria());
+        lblCategoria.setBounds(10, 125, 130, 20);
+        tarjeta.add(lblCategoria);
+
+        JLabel lblCalif = new JLabel("★ " + p.getCalificacion());
+        lblCalif.setBounds(10, 145, 130, 20);
+        tarjeta.add(lblCalif);
+
+        panel.add(tarjeta);
+
+        contador++;
+        x += ancho + 20;
+        if (contador % columnas == 0) {
+            x = 30;
+            y += alto + 20;
+        }
+    }
+
+    ventanaFavoritos.setVisible(true);
+}
+public ImageIcon cargarImagenDesdeArchivo(String ruta, int ancho, int alto) {
+    try {
+        Image img = new ImageIcon(ruta).getImage();
+        Image imgRedimensionada = img.getScaledInstance(ancho, alto, Image.SCALE_SMOOTH);
+        return new ImageIcon(imgRedimensionada);
+    } catch (Exception e) {
+        System.err.println("No se pudo cargar imagen desde: " + ruta);
+        return null;
+    }
+}
+
+
+
 
 
 
@@ -1226,12 +1816,16 @@ public void mostrarPeluches() {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnFavorito1;
+    private javax.swing.JButton btnFavorito10;
     private javax.swing.JButton btnFavorito2;
     private javax.swing.JButton btnFavorito3;
     private javax.swing.JButton btnFavorito4;
     private javax.swing.JButton btnFavorito5;
     private javax.swing.JButton btnFavorito6;
     private javax.swing.JButton btnFavorito7;
+    private javax.swing.JButton btnFavorito8;
+    private javax.swing.JButton btnFavorito9;
+    private javax.swing.JButton btnVerFavoritos;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton10;
     private javax.swing.JButton jButton14;
@@ -1240,12 +1834,15 @@ public void mostrarPeluches() {
     private javax.swing.JButton jButton20;
     private javax.swing.JButton jButton22;
     private javax.swing.JButton jButton24;
+    private javax.swing.JButton jButton25;
+    private javax.swing.JButton jButton26;
+    private javax.swing.JButton jButton27;
+    private javax.swing.JButton jButton28;
     private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton4;
     private javax.swing.JButton jButton5;
     private javax.swing.JButton jButton6;
     private javax.swing.JButton jButton7;
-    private javax.swing.JButton jButton8;
     private javax.swing.JButton jButton9;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
@@ -1255,7 +1852,11 @@ public void mostrarPeluches() {
     private javax.swing.JLabel jLabel14;
     private javax.swing.JLabel jLabel15;
     private javax.swing.JLabel jLabel16;
+    private javax.swing.JLabel jLabel17;
+    private javax.swing.JLabel jLabel18;
+    private javax.swing.JLabel jLabel19;
     private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel20;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
@@ -1269,7 +1870,11 @@ public void mostrarPeluches() {
     private javax.swing.JPanel jPanel13;
     private javax.swing.JPanel jPanel16;
     private javax.swing.JPanel jPanel17;
+    private javax.swing.JPanel jPanel18;
+    private javax.swing.JPanel jPanel19;
     private javax.swing.JPanel jPanel2;
+    private javax.swing.JPanel jPanel20;
+    private javax.swing.JPanel jPanel21;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
     private javax.swing.JPanel jPanel7;
@@ -1280,35 +1885,55 @@ public void mostrarPeluches() {
     private javax.swing.JLabel lblOso;
     private javax.swing.JLabel lblPerro;
     private javax.swing.JLabel lblcd1;
+    private javax.swing.JLabel lblcd10;
     private javax.swing.JLabel lblcd2;
     private javax.swing.JLabel lblcd3;
     private javax.swing.JLabel lblcd4;
     private javax.swing.JLabel lblcd5;
     private javax.swing.JLabel lblcd6;
+    private javax.swing.JLabel lblcd7;
+    private javax.swing.JLabel lblcd8;
+    private javax.swing.JLabel lblcd9;
     private javax.swing.JLabel lvlCalificacion1;
+    private javax.swing.JLabel lvlCalificacion10;
     private javax.swing.JLabel lvlCalificacion2;
     private javax.swing.JLabel lvlCalificacion3;
     private javax.swing.JLabel lvlCalificacion4;
     private javax.swing.JLabel lvlCalificacion5;
     private javax.swing.JLabel lvlCalificacion6;
+    private javax.swing.JLabel lvlCalificacion7;
+    private javax.swing.JLabel lvlCalificacion8;
+    private javax.swing.JLabel lvlCalificacion9;
     private javax.swing.JLabel lvlCategoria1;
+    private javax.swing.JLabel lvlCategoria10;
     private javax.swing.JLabel lvlCategoria2;
     private javax.swing.JLabel lvlCategoria3;
     private javax.swing.JLabel lvlCategoria4;
     private javax.swing.JLabel lvlCategoria5;
     private javax.swing.JLabel lvlCategoria6;
+    private javax.swing.JLabel lvlCategoria7;
+    private javax.swing.JLabel lvlCategoria8;
+    private javax.swing.JLabel lvlCategoria9;
     private javax.swing.JLabel lvlNombre1;
+    private javax.swing.JLabel lvlNombre10;
     private javax.swing.JLabel lvlNombre2;
     private javax.swing.JLabel lvlNombre3;
     private javax.swing.JLabel lvlNombre4;
     private javax.swing.JLabel lvlNombre5;
     private javax.swing.JLabel lvlNombre6;
+    private javax.swing.JLabel lvlNombre7;
+    private javax.swing.JLabel lvlNombre8;
+    private javax.swing.JLabel lvlNombre9;
     private javax.swing.JLabel lvlPrecio1;
+    private javax.swing.JLabel lvlPrecio10;
     private javax.swing.JLabel lvlPrecio2;
     private javax.swing.JLabel lvlPrecio3;
     private javax.swing.JLabel lvlPrecio4;
     private javax.swing.JLabel lvlPrecio5;
     private javax.swing.JLabel lvlPrecio6;
+    private javax.swing.JLabel lvlPrecio7;
+    private javax.swing.JLabel lvlPrecio8;
+    private javax.swing.JLabel lvlPrecio9;
     private javax.swing.JPanel panelCatalogo;
     private javax.swing.JScrollPane scrollCatalogo;
     private javax.swing.JTextField txtBuscar;

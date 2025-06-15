@@ -1,24 +1,58 @@
-
+/*
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+ * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
+ */
 package vista;
 
+import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Component;
+import java.awt.Dimension;
+import java.awt.Font;
 import java.awt.GridLayout;
+import java.awt.Image;
+import java.util.ArrayList;
 import javax.swing.BorderFactory;
+import javax.swing.Box;
+import javax.swing.BoxLayout;
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
+import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.SwingConstants;
 import modelo.Peluche;
 import modelo.Usuario;
 
 
-public class FrmFavoritos extends javax.swing.JFrame {
- private Usuario usuario;
+
+
+
+
     /**
      * Creates new form FrmFavoritos
      */
-    public FrmFavoritos(Usuario usuario1) {
-      this.usuario = usuario;
-        mostrarFavoritos();
+ public class FrmFavoritos extends javax.swing.JFrame {
+    private Usuario usuarioActual;
+    private JPanel panelFavoritos;
+
+
+    public FrmFavoritos(Usuario usuario) {
+        initComponents();
+        this.usuarioActual = usuario;
+        setTitle("Tus Peluches Favoritos");
+        setLocationRelativeTo(null);
+        setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+
+        // Layout para mostrar tarjetas en forma de grilla
+        panelFavoritos.setLayout(new GridLayout(0, 3, 15, 15));
+        panelFavoritos.setBackground(Color.WHITE);
+
+        cargarFavoritos();
     }
+
+
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -29,68 +63,86 @@ public class FrmFavoritos extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jScrollPane1 = new javax.swing.JScrollPane();
-        panelFavoritos = new javax.swing.JPanel();
-
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-
-        javax.swing.GroupLayout panelFavoritosLayout = new javax.swing.GroupLayout(panelFavoritos);
-        panelFavoritos.setLayout(panelFavoritosLayout);
-        panelFavoritosLayout.setHorizontalGroup(
-            panelFavoritosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 967, Short.MAX_VALUE)
-        );
-        panelFavoritosLayout.setVerticalGroup(
-            panelFavoritosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 712, Short.MAX_VALUE)
-        );
-
-        jScrollPane1.setViewportView(panelFavoritos);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 957, Short.MAX_VALUE)
-                .addContainerGap())
+            .addGap(0, 400, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane1)
+            .addGap(0, 300, Short.MAX_VALUE)
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void mostrarFavoritos() {
-        panelFavoritos.setLayout(new GridLayout(0, 1, 10, 10)); // Mostrar verticalmente
+    /**
+     * @param args the command line arguments
+     */
 
-        for (Peluche p : usuario.getFavoritos()) {
-            JPanel tarjeta = new JPanel();
-            tarjeta.setLayout(new GridLayout(4, 1));
-            tarjeta.setBorder(BorderFactory.createLineBorder(Color.GRAY));
 
-            tarjeta.add(new JLabel("Nombre: " + p.getNombre()));
-            tarjeta.add(new JLabel("Precio: $" + p.getPrecio()));
-            tarjeta.add(new JLabel("Categoría: " + p.getCategoria()));
-            tarjeta.add(new JLabel("Calificación: " + p.getCalificacion() + "★"));
 
-            panelFavoritos.add(tarjeta);
+ private void cargarFavoritos() {
+        panelFavoritos.removeAll();
+
+        ArrayList<Peluche> favoritos = usuarioActual.getFavoritos();
+
+        if (favoritos.isEmpty()) {
+            JLabel lbl = new JLabel("No tienes peluches favoritos aún.");
+            lbl.setFont(new Font("Arial", Font.BOLD, 20));
+            lbl.setHorizontalAlignment(SwingConstants.CENTER);
+            panelFavoritos.setLayout(new BorderLayout());
+            panelFavoritos.add(lbl, BorderLayout.CENTER);
+        } else {
+            for (Peluche p : favoritos) {
+                JPanel tarjeta = crearTarjetaPeluche(p);
+                panelFavoritos.add(tarjeta);
+            }
         }
 
         panelFavoritos.revalidate();
         panelFavoritos.repaint();
     }
 
-    /**
-     * @param args the command line arguments
-     */
+    private JPanel crearTarjetaPeluche(Peluche p) {
+        JPanel panel = new JPanel();
+        panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
+        panel.setBackground(new Color(255, 240, 245));
+        panel.setBorder(BorderFactory.createLineBorder(Color.PINK, 2));
+        panel.setPreferredSize(new Dimension(250, 200));
+
+        JLabel lblIcono = new JLabel("🐻 Peluche", SwingConstants.CENTER);
+        lblIcono.setFont(new Font("Arial", Font.PLAIN, 24));
+        lblIcono.setAlignmentX(Component.CENTER_ALIGNMENT);
+
+        JLabel lblNombre = new JLabel(p.getNombre());
+        lblNombre.setFont(new Font("Arial", Font.BOLD, 16));
+        lblNombre.setAlignmentX(Component.CENTER_ALIGNMENT);
+
+        JLabel lblPrecio = new JLabel("Precio: $" + p.getPrecio());
+        lblPrecio.setAlignmentX(Component.CENTER_ALIGNMENT);
+
+        JLabel lblCategoria = new JLabel("Categoría: " + p.getCategoria());
+        lblCategoria.setAlignmentX(Component.CENTER_ALIGNMENT);
+
+        panel.add(Box.createVerticalStrut(10));
+        panel.add(lblIcono);
+        panel.add(Box.createVerticalStrut(10));
+        panel.add(lblNombre);
+        panel.add(lblPrecio);
+        panel.add(lblCategoria);
+
+        return panel;
+        
+    }
    
 
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JPanel panelFavoritos;
     // End of variables declaration//GEN-END:variables
 }
+
+

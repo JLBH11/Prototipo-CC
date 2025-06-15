@@ -1,6 +1,8 @@
 
 package vista;
 
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.io.IOException;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
@@ -18,8 +20,8 @@ public class FrmGestionPeluches extends javax.swing.JFrame {
     initComponents();
     this.tienda = tienda;
     System.out.println("Peluches cargados: " + tienda.getCatalogo().size());
-
-    actualizarLista();
+cargarTabla();
+    actualizarTablaPeluches();
 }
     
     private void cargarTabla() {
@@ -54,7 +56,7 @@ public class FrmGestionPeluches extends javax.swing.JFrame {
         jScrollPane1 = new javax.swing.JScrollPane();
         tblPeluches = new javax.swing.JTable();
         btnEliminar = new javax.swing.JButton();
-        btnAgregar = new javax.swing.JButton();
+        btnNuevoPeluche = new javax.swing.JButton();
         jButton1 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -79,10 +81,10 @@ public class FrmGestionPeluches extends javax.swing.JFrame {
             }
         });
 
-        btnAgregar.setText("AGREGAR");
-        btnAgregar.addActionListener(new java.awt.event.ActionListener() {
+        btnNuevoPeluche.setText("AGREGAR");
+        btnNuevoPeluche.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnAgregarActionPerformed(evt);
+                btnNuevoPelucheActionPerformed(evt);
             }
         });
 
@@ -104,7 +106,7 @@ public class FrmGestionPeluches extends javax.swing.JFrame {
                 .addGap(226, 226, 226)
                 .addComponent(btnEliminar, javax.swing.GroupLayout.PREFERRED_SIZE, 122, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 250, Short.MAX_VALUE)
-                .addComponent(btnAgregar, javax.swing.GroupLayout.PREFERRED_SIZE, 119, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(btnNuevoPeluche, javax.swing.GroupLayout.PREFERRED_SIZE, 119, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(192, 192, 192))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -118,7 +120,7 @@ public class FrmGestionPeluches extends javax.swing.JFrame {
                 .addGap(45, 45, 45)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(btnEliminar, javax.swing.GroupLayout.DEFAULT_SIZE, 53, Short.MAX_VALUE)
-                    .addComponent(btnAgregar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(btnNuevoPeluche, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 58, Short.MAX_VALUE)
                 .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
@@ -146,11 +148,13 @@ public class FrmGestionPeluches extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_btnEliminarActionPerformed
 
-    private void btnAgregarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAgregarActionPerformed
-FrmNuevoPeluche nuevo = new FrmNuevoPeluche(tienda);  // Le pasas referencia a la ventana actual
-    nuevo.setVisible(true);
+    private void btnNuevoPelucheActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNuevoPelucheActionPerformed
+FrmNuevoPeluche nuevo = new FrmNuevoPeluche(tienda, this);
+nuevo.setVisible(true);
+
+
         // TODO add your handling code here:
-    }//GEN-LAST:event_btnAgregarActionPerformed
+    }//GEN-LAST:event_btnNuevoPelucheActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
 
@@ -162,12 +166,12 @@ FrmNuevoPeluche nuevo = new FrmNuevoPeluche(tienda);  // Le pasas referencia a l
         // TODO add your handling code here:
     }//GEN-LAST:event_jButton1ActionPerformed
 
-    public void actualizarLista() {
+   public void actualizarTablaPeluches() {
     DefaultTableModel model = (DefaultTableModel) tblPeluches.getModel();
     model.setRowCount(0); // Limpia la tabla
 
     for (Peluche p : tienda.getCatalogo()) {
-        System.out.println("Agregando peluche: " + p.getNombre()); // <-- Debug
+        System.out.println("Agregando peluche: " + p.getNombre()); // Opcional para debug
         model.addRow(new Object[]{
             p.getNombre(),
             p.getPrecio(),
@@ -187,8 +191,8 @@ FrmNuevoPeluche nuevo = new FrmNuevoPeluche(tienda);  // Le pasas referencia a l
     
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton btnAgregar;
     private javax.swing.JButton btnEliminar;
+    private javax.swing.JButton btnNuevoPeluche;
     private javax.swing.JButton jButton1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable tblPeluches;

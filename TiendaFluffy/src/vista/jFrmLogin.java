@@ -1,58 +1,36 @@
 package vista;
 
-
-
-
-import modelo.TiendaDatos;
-import vista.jFrmAdmin;
-import vista.FrmCatalogo;
+import java.awt.Color;
+import java.awt.Image;
+import javax.swing.*;
 import modelo.Tienda;
 import modelo.Usuario;
 import modelo.UsuarioDatos;
-import java.awt.Color;
-import java.awt.Image;
 import java.util.ArrayList;
-import javax.swing.ImageIcon;
-import javax.swing.JOptionPane;
+import vista.FrmAdmin;
+import vista.FrmCatalogo;
+import vista.jFrmRegistrarU;
 
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
-/**
- *
- * @author Usuario
- */
 public class jFrmLogin extends javax.swing.JFrame {
-private Tienda tienda;
- // esto debe estar al principio de la clase FrmLogin
+    private Tienda tienda;
 
-    /**
-     * Creates new form jFrmLogin
-     */
     public jFrmLogin() {
         initComponents();
-        cargarLogo();
-        UsuarioDatos.cargarUsuarios();
-         tienda = new Tienda();
-         try {
-        tienda.cargarCatalogo(); // ✅ CARGAR
-    } catch (Exception e) {
-        System.out.println("No se pudo cargar el catálogo: " + e.getMessage());
-    }
-        
-        getContentPane().setBackground(new Color(250, 218, 221));  // Rosado claro
+        setLocationRelativeTo(null);
+        getContentPane().setBackground(new Color(250, 218, 221));
 
-        ImageIcon logoOriginal = new ImageIcon(getClass().getResource("/Imagenes/LogoP.png"));
-    
-    Image imagenEscalada = logoOriginal.getImage().getScaledInstance(
-        lblLogo.getWidth(), lblLogo.getHeight(), Image.SCALE_SMOOTH);
+        tienda = new Tienda();
 
-lblLogo.setIcon(new ImageIcon(imagenEscalada));
- 
+        // Cargar usuarios desde archivo
+        ArrayList<Usuario> usuariosCargados = UsuarioDatos.cargarUsuarios();
+        tienda.setUsuarios(usuariosCargados);
     }
+
+    public Tienda getTienda() {
+        return tienda;
+    }
+
+
     
     
     @SuppressWarnings("unchecked")
@@ -240,43 +218,64 @@ lblLogo.setIcon(new ImageIcon(imagenEscalada));
     }//GEN-LAST:event_jCheckBoxRecordarActionPerformed
 
     private void jButtonIsuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonIsuActionPerformed
- String username = txtUsuario.getText().trim();
-String contraseña = txtClave.getText().trim();
+String username = txtUsuario.getText().trim();
+String password = txtClave.getText().trim();
 
-ArrayList<Usuario> listaUsuarios = UsuarioDatos.cargarUsuarios();
-for (Usuario u : listaUsuarios) {
-    if (u.getUsername().equals(username) && u.getContraseña().equals(contraseña)) {
-        FrmCatalogo catalogo = new FrmCatalogo(u); // 👈 aquí pasas el usuario
-        catalogo.setVisible(true);
-        this.dispose();
-        return;
-    }
+System.out.println("Intentando login con: " + username + " / " + password);
+
+// Paso 1: Cargar usuarios actualizados desde archivo y actualizar la tienda
+ArrayList<Usuario> usuariosActualizados = UsuarioDatos.cargarUsuarios();
+tienda.setUsuarios(usuariosActualizados);
+
+// Paso 2: Imprimir usuarios del archivo para debug
+for (Usuario u : usuariosActualizados) {
+    System.out.println("Usuario en archivo: " + u.getUsername() + " / " + u.getContraseña());
 }
-JOptionPane.showMessageDialog(this, "Usuario o contraseña incorrectos");
+
+// Paso 3: Validar credenciales
+Usuario usuarioLogueado = tienda.getUsuarioPorCredenciales(username, password);
+System.out.println("Resultado de búsqueda: " + (usuarioLogueado != null ? "Encontrado" : "No encontrado"));
+
+if (usuarioLogueado != null) {
+    if (username.equals("admin")) {
+        new FrmAdmin(tienda).setVisible(true);
+    } else {
+        new FrmCatalogo(tienda, usuarioLogueado).setVisible(true);
+    }
+    this.dispose();
+} else {
+    JOptionPane.showMessageDialog(this, "Usuario o contraseña incorrectos.");
+}
+
+
+
+
+
+
+
+
 
 
     }//GEN-LAST:event_jButtonIsuActionPerformed
 
     private void jButtonIsaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonIsaActionPerformed
  String usuario = txtUsuario.getText().trim();
-    String clave = txtClave.getText().trim();
+String clave = txtClave.getText().trim();
 
-    if (tienda.validarUsuario(usuario, clave)) {
-        if (usuario.equals("admin")) {
-            FrmAdmin admin = new FrmAdmin(tienda);
-            admin.setVisible(true);
-            this.dispose(); // Cierra el login
-        } else {
-            JOptionPane.showMessageDialog(this, "Este botón es solo para administradores.");
-        }
-    } else {
-        JOptionPane.showMessageDialog(this, "Usuario o contraseña incorrectos.");
-    }
+if (usuario.equals("admin") && clave.equals("1234")) {
+    FrmAdmin admin = new FrmAdmin(tienda);
+    admin.setVisible(true);
+    this.dispose(); // Cierra el login
+} else {
+    JOptionPane.showMessageDialog(this, "Credenciales de administrador incorrectas.");
+}
+
     }//GEN-LAST:event_jButtonIsaActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-    jFrmRegistrarU registrar = new jFrmRegistrarU();
-        registrar.setVisible(true);
+   jFrmRegistrarU frm = new jFrmRegistrarU(tienda);
+frm.setVisible(true);
+
 
     }//GEN-LAST:event_jButton1ActionPerformed
 

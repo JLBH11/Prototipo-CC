@@ -1,5 +1,6 @@
 
 package vista;
+import java.io.IOException;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 import modelo.Peluche;
@@ -13,11 +14,12 @@ public class FrmNuevoPeluche extends javax.swing.JFrame {
 private Tienda tienda;
 private FrmGestionPeluches ventanaPadre;
 
-public FrmNuevoPeluche(Tienda tienda) {
+public FrmNuevoPeluche(Tienda tienda, FrmGestionPeluches ventanaPadre) {
     initComponents();
     this.tienda = tienda;
     this.ventanaPadre = ventanaPadre;
 }
+
 
     
     
@@ -183,31 +185,54 @@ if (fileChooser.showOpenDialog(this) == JFileChooser.APPROVE_OPTION) {
     }//GEN-LAST:event_btnBuscarImagenActionPerformed
 
     private void btnGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarActionPerformed
+String nombre = txtNombre.getText().trim();
+String precioStr = txtPrecio.getText().trim();
+String imagenRuta = txtImagen.getText().trim();
+String categoria = txtCategoria.getText().trim();
+String calificacionStr = txtCalificacion.getText().trim();
 
-    String nombre = txtNombre.getText().trim();
-    String precioStr = txtPrecio.getText().trim();
-    String imagenRuta = txtImagen.getText().trim();
-    String categoria = txtCategoria.getText().trim();
-    String calificacionStr = txtCalificacion.getText().trim();
+if (!nombre.isEmpty() && !precioStr.isEmpty() && !calificacionStr.isEmpty()
+        && !imagenRuta.isEmpty() && !categoria.isEmpty()) {
 
-    if (!nombre.isEmpty() && !precioStr.isEmpty() && !calificacionStr.isEmpty()) {
-        double precio = Double.parseDouble(precioStr);
-        double calificacion = Double.parseDouble(calificacionStr);
+    double precio;
+    double calificacion;
 
-        Peluche nuevo = new Peluche(nombre, precio, imagenRuta, categoria, calificacion);
-        tienda.agregarPeluche(nuevo);
+    try {
+        precio = Double.parseDouble(precioStr);
+        calificacion = Double.parseDouble(calificacionStr);
+    } catch (NumberFormatException e) {
+        JOptionPane.showMessageDialog(this, "Precio o calificación inválida. Deben ser números.");
+        return;
+    }
 
-        try {
-            tienda.guardarCatalogo(); // ✅ GUARDAR
-        } catch (Exception e) {
-            JOptionPane.showMessageDialog(this, "Error al guardar catálogo: " + e.getMessage());
+    // Crear objeto Peluche
+    Peluche nuevo = new Peluche(nombre, precio, imagenRuta, categoria, calificacion);
+
+    // Agregar al catálogo
+    tienda.getCatalogo().add(nuevo);
+
+    // Guardar en archivo
+    try {
+        tienda.guardarCatalogo();
+        JOptionPane.showMessageDialog(this, "Peluche agregado correctamente.");
+
+        // ✅ Notificar al panel de gestión (FrmGestionPeluches)
+        if (ventanaPadre != null) {
+            ventanaPadre.actualizarTablaPeluches(); // Recarga la tabla con el nuevo peluche
         }
 
-        JOptionPane.showMessageDialog(this, "Peluche agregado correctamente");
-        this.dispose();
-    } else {
-        JOptionPane.showMessageDialog(this, "Por favor, completa todos los campos.");
+        this.dispose(); // Cierra la ventana actual
+
+    } catch (IOException ex) {
+        JOptionPane.showMessageDialog(this, "Error al guardar catálogo: " + ex.getMessage());
     }
+
+} else {
+    JOptionPane.showMessageDialog(this, "Por favor, completa todos los campos.");
+}
+
+
+
 
 
 

@@ -450,8 +450,8 @@ private Tienda tienda;
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnAgregarPelucheActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAgregarPelucheActionPerformed
- FrmNuevoPeluche ventana = new FrmNuevoPeluche(tienda);
-ventana.setVisible(true);
+FrmGestionPeluches gestion = new FrmGestionPeluches(tienda);
+gestion.setVisible(true);
 
     }//GEN-LAST:event_btnAgregarPelucheActionPerformed
 

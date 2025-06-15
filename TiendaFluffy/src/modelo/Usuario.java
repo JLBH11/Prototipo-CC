@@ -4,6 +4,8 @@ import java.io.Serializable;
 import java.util.ArrayList;
 
 public class Usuario implements Serializable {
+    private static final long serialVersionUID = 1L; // Para compatibilidad de serialización
+
     private String username;
     private String contraseña;
     private String nombres;
@@ -47,7 +49,16 @@ public class Usuario implements Serializable {
         }
     }
 
+    
+    
+
     public ArrayList<Peluche> getFavoritos() {
-        return favoritos;
-    }
+    return favoritos;
 }
+
+public void setFavoritos(ArrayList<Peluche> favoritos) {
+    this.favoritos = favoritos;
+}
+
+}
+
