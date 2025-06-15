@@ -7,14 +7,13 @@ public class UsuarioDatos {
     private static final String ARCHIVO = "usuarios.dat";
 
     public static void guardarUsuarios(ArrayList<Usuario> usuarios) {
-    try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream("usuarios.dat"))) {
-        oos.writeObject(usuarios);
-        System.out.println("Usuarios guardados correctamente.");
-    } catch (IOException e) {
-        e.printStackTrace();
+        try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(ARCHIVO))) {
+            oos.writeObject(usuarios);
+            System.out.println("Usuarios guardados correctamente.");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
-}
-
 
     public static ArrayList<Usuario> cargarUsuarios() {
         File archivo = new File(ARCHIVO);
@@ -32,17 +31,16 @@ public class UsuarioDatos {
             return new ArrayList<>();
         }
     }
-    
-    public static void guardarFavoritosDe(Usuario usuarioActual) {
-    ArrayList<Usuario> lista = cargarUsuarios();
-    for (Usuario u : lista) {
-        if (u.getUsername().equals(usuarioActual.getUsername())) {
-            u.setFavoritos(usuarioActual.getFavoritos());
-            break;
-        }
+
+    public static ArrayList<Usuario> obtenerUsuarios() {
+        return cargarUsuarios(); // solución directa
     }
-    guardarUsuarios(lista); // Guarda toda la lista con el cambio en favoritos
-}
 
-}
-
+    public static void guardarFavoritosDe(Usuario usuarioActual) {
+        ArrayList<Usuario> lista = cargarUsuarios();
+        for (Usuario u : lista) {
+            if (u.getUsername().equals(usuarioActual.getUsername())) {
+                u.setFavoritos(usuarioActual.getFavoritos());
+                break;
+            }
+        }}}

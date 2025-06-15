@@ -13,6 +13,7 @@ public class Usuario implements Serializable {
     private String telefono;
     private String email;
     private ArrayList<Peluche> favoritos = new ArrayList<>();
+    private ArrayList<Peluche> articulos = new ArrayList<>();
 
     public Usuario(String username, String contraseña, String nombres, String apellidos, String telefono, String email) {
         this.username = username;
@@ -60,5 +61,18 @@ public void setFavoritos(ArrayList<Peluche> favoritos) {
     this.favoritos = favoritos;
 }
 
+//Articulos
+public void agregarArticulo(Peluche p) {
+        if (!articulos.contains(p)) {
+            articulos.add(p);
+        }
+    }
+    public ArrayList<Peluche> getArticulos() {
+    return articulos;
+}
+
+public void setArticulo(ArrayList<Peluche> articulos) {
+    this.articulos = articulos;
+}
 }
 

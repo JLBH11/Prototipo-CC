@@ -44,7 +44,7 @@ import modelo.Usuario;
         setTitle("Tus Peluches Favoritos");
         setLocationRelativeTo(null);
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-
+getContentPane().setBackground(new Color(250, 218, 221));
         // Layout para mostrar tarjetas en forma de grilla
         panelFavoritos.setLayout(new GridLayout(0, 3, 15, 15));
         panelFavoritos.setBackground(Color.WHITE);

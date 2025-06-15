@@ -1922,8 +1922,8 @@ System.out.println("Instancia Tienda: " + tienda);
     }//GEN-LAST:event_jButton36ActionPerformed
 
     private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
- jFrmCarrito carrito = new jFrmCarrito();
-        carrito.setVisible(true);
+jFrmCarrito carritoLleno = new jFrmCarrito(tienda, usuarioActual);
+        carritoLleno.setVisible(true);
         // TODO add your handling code here:
     }//GEN-LAST:event_jButton6ActionPerformed
 

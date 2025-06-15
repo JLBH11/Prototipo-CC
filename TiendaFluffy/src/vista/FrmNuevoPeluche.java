@@ -1,10 +1,12 @@
 
 package vista;
+import java.awt.Color;
 import java.io.IOException;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 import modelo.Peluche;
 import modelo.Tienda;
+import modelo.TiendaDatos;
 
 /**
  *
@@ -18,6 +20,7 @@ public FrmNuevoPeluche(Tienda tienda, FrmGestionPeluches ventanaPadre) {
     initComponents();
     this.tienda = tienda;
     this.ventanaPadre = ventanaPadre;
+    getContentPane().setBackground(new Color(250, 218, 221));
     
 }
 
@@ -57,6 +60,7 @@ public FrmNuevoPeluche(Tienda tienda, FrmGestionPeluches ventanaPadre) {
         jLabel1.setText("jLabel1");
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setBackground(new java.awt.Color(255, 204, 204));
 
         jLabel2.setFont(new java.awt.Font("Segoe UI", 0, 24)); // NOI18N
         jLabel2.setText("AÑADIR PELUCHE");
@@ -151,20 +155,23 @@ public FrmNuevoPeluche(Tienda tienda, FrmGestionPeluches ventanaPadre) {
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
                                 .addGap(61, 61, 61)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(IMAGEN)
-                                    .addComponent(jLabel2)))
+                                .addComponent(IMAGEN)
+                                .addGap(145, 145, 145))
                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                 .addComponent(btnGuardar, javax.swing.GroupLayout.PREFERRED_SIZE, 207, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(16, 16, 16))))))
+            .addGroup(layout.createSequentialGroup()
+                .addGap(226, 226, 226)
+                .addComponent(jLabel2)
+                .addGap(0, 0, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(20, 20, 20)
+                .addGap(42, 42, 42)
                 .addComponent(jLabel2)
-                .addGap(145, 145, 145)
+                .addGap(123, 123, 123)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel3)
                     .addComponent(jLabel4)
@@ -212,67 +219,61 @@ if (fileChooser.showOpenDialog(this) == JFileChooser.APPROVE_OPTION) {
     }//GEN-LAST:event_btnBuscarImagenActionPerformed
 
     private void btnGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarActionPerformed
-                                       
+  // 1. Obtener y validar campos
+String nombre = txtNombre.getText().trim();
+String precioStr = txtPrecio.getText().trim();
+String imagenRuta = txtImagen.getText().trim();
+String categoria = txtCategoria.getText().trim();
+String calificacionStr = txtCalificacion.getText().trim();
+String stockStr = txtStock.getText().trim();
 
-    // 1. Obtener y validar campos
-    String nombre = txtNombre.getText().trim();
-    String precioStr = txtPrecio.getText().trim();
-    String imagenRuta = txtImagen.getText().trim();
-    String categoria = txtCategoria.getText().trim();
-    String calificacionStr = txtCalificacion.getText().trim();
-    String stockStr = txtStock.getText().trim();
+if (nombre.isEmpty() || precioStr.isEmpty() || imagenRuta.isEmpty() ||
+    categoria.isEmpty() || calificacionStr.isEmpty() || stockStr.isEmpty()) {
+    JOptionPane.showMessageDialog(this, "Por favor, completa todos los campos.");
+    return;
+}
 
-    if (nombre.isEmpty() || precioStr.isEmpty() || imagenRuta.isEmpty() ||
-        categoria.isEmpty() || calificacionStr.isEmpty() || stockStr.isEmpty()) {
-        JOptionPane.showMessageDialog(this, "Por favor, completa todos los campos.");
-        return;
+double precio;
+double calificacion;
+int stock;
+
+try {
+    precio = Double.parseDouble(precioStr);
+    calificacion = Double.parseDouble(calificacionStr);
+    stock = Integer.parseInt(stockStr);
+} catch (NumberFormatException e) {
+    JOptionPane.showMessageDialog(this, "Precio, calificación o stock inválidos. Deben ser números.");
+    return;
+}
+
+if (stock < 0) {
+    JOptionPane.showMessageDialog(this, "El stock no puede ser negativo.");
+    return;
+}
+
+// 2. Crear objeto Peluche con stock
+Peluche nuevo = new Peluche(nombre, precio, imagenRuta, categoria, calificacion, stock);
+
+// 3. Agregar al catálogo
+tienda.getCatalogo().add(nuevo);
+TiendaDatos.agregarPeluche(nuevo); // ✅ Ahora se sincroniza con los reportes
+
+// 4. Guardar en archivo
+try {
+    tienda.guardarCatalogo();
+    JOptionPane.showMessageDialog(this, "✅ Peluche agregado correctamente.");
+
+    // 5. Actualizar la tabla de la ventana de gestión (FrmGestionPeluches)
+    if (ventanaPadre != null) {
+        ventanaPadre.actualizarTablaPeluches(); // Método debe existir en FrmGestionPeluches
     }
 
-    double precio;
-    double calificacion;
-    int stock;
+    // 6. Cerrar ventana actual
+    this.dispose();
 
-    try {
-        precio = Double.parseDouble(precioStr);
-        calificacion = Double.parseDouble(calificacionStr);
-        stock = Integer.parseInt(stockStr);
-    } catch (NumberFormatException e) {
-        JOptionPane.showMessageDialog(this, "Precio, calificación o stock inválidos. Deben ser números.");
-        return;
-    }
-
-    if (stock < 0) {
-        JOptionPane.showMessageDialog(this, "El stock no puede ser negativo.");
-        return;
-    }
-
-    // 2. Crear objeto Peluche con stock
-    Peluche nuevo = new Peluche(nombre, precio, imagenRuta, categoria, calificacion, stock);
-
-    // 3. Agregar al catálogo
-    tienda.getCatalogo().add(nuevo);
-
-    // 4. Guardar en archivo
-    try {
-        tienda.guardarCatalogo();
-        JOptionPane.showMessageDialog(this, "✅ Peluche agregado correctamente.");
-
-        // 5. Actualizar la tabla de la ventana de gestión (FrmGestionPeluches)
-        if (ventanaPadre != null) {
-            ventanaPadre.actualizarTablaPeluches(); // Método debe existir en FrmGestionPeluches
-        }
-
-        // 6. Cerrar ventana actual
-        this.dispose();
-
-    } catch (IOException ex) {
-        JOptionPane.showMessageDialog(this, "❌ Error al guardar catálogo: " + ex.getMessage());
-    }
-
-
-
-
-
+} catch (IOException ex) {
+    JOptionPane.showMessageDialog(this, "❌ Error al guardar catálogo: " + ex.getMessage());
+}
 
 
 
