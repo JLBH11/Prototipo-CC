@@ -17,7 +17,18 @@ public class jFrmLogin extends javax.swing.JFrame {
     public jFrmLogin() {
         initComponents();
         setLocationRelativeTo(null);
-        getContentPane().setBackground(new Color(250, 218, 221));
+        cargarLogo();
+        
+        getContentPane().setBackground(new Color(250, 218, 221));  // Rosado claro
+
+        ImageIcon logoOriginal = new ImageIcon(getClass().getResource("/Imagenes/LogoP.png"));
+    
+    Image imagenEscalada = logoOriginal.getImage().getScaledInstance(
+        lblLogo.getWidth(), lblLogo.getHeight(), Image.SCALE_SMOOTH);
+
+lblLogo.setIcon(new ImageIcon(imagenEscalada));
+ 
+    
 
         tienda = new Tienda();
 
@@ -246,6 +257,7 @@ if (usuarioLogueado != null) {
 } else {
     JOptionPane.showMessageDialog(this, "Usuario o contraseña incorrectos.");
 }
+System.out.println("Instancia Tienda: " + tienda);
 
 
 

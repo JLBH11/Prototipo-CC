@@ -10,13 +10,16 @@ public class Peluche implements Serializable {
     private String imagenRuta;
     private String categoria;
     private double calificacion;
+    private int stock;  // ✅ Nuevo atributo
 
-    public Peluche(String nombre, double precio, String imagenRuta, String categoria, double calificacion) {
+    // Constructor actualizado con stock
+    public Peluche(String nombre, double precio, String imagenRuta, String categoria, double calificacion, int stock) {
         this.nombre = nombre;
         this.precio = precio;
         this.imagenRuta = imagenRuta;
         this.categoria = categoria;
         this.calificacion = calificacion;
+        this.stock = stock;
     }
 
     // Getters y Setters
@@ -37,12 +40,12 @@ public class Peluche implements Serializable {
     }
 
     public String getImagenRuta() {
-        return imagenRuta;
-    }
+    return imagenRuta;
+}
 
-    public void setImagenRuta(String imagenRuta) {
-        this.imagenRuta = imagenRuta;
-    }
+public void setImagenRuta(String imagenRuta) {
+    this.imagenRuta = imagenRuta;
+}
 
     public String getCategoria() {
         return categoria;
@@ -60,8 +63,16 @@ public class Peluche implements Serializable {
         this.calificacion = calificacion;
     }
 
+    public int getStock() {
+        return stock;
+    }
+
+    public void setStock(int stock) {
+        this.stock = stock;
+    }
+
     @Override
     public String toString() {
-        return nombre + " - $" + precio + " - " + categoria + " - ★" + calificacion;
+        return nombre + " - $" + precio + " - " + categoria + " - ★" + calificacion + " - Stock: " + stock;
     }
 }

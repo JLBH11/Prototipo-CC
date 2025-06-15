@@ -20,28 +20,25 @@ public class FrmGestionPeluches extends javax.swing.JFrame {
     initComponents();
     this.tienda = tienda;
     System.out.println("Peluches cargados: " + tienda.getCatalogo().size());
-cargarTabla();
+cargarPeluchesEnTabla();
     actualizarTablaPeluches();
+    addWindowListener(new WindowAdapter() {
+    @Override
+    public void windowClosing(WindowEvent e) {
+        try {
+            tienda.guardarCatalogo();
+            System.out.println("Catálogo guardado al cerrar ventana.");
+        } catch (IOException ex) {
+            System.err.println("Error al guardar catálogo al cerrar ventana: " + ex.getMessage());
+        }
+    }
+});
+
 }
     
-    private void cargarTabla() {
-    DefaultTableModel modelo = new DefaultTableModel();
-    modelo.addColumn("Nombre");
-    modelo.addColumn("Precio");
-    modelo.addColumn("Categoría");
-    modelo.addColumn("Calificación");
+    
 
-    for (Peluche p : tienda.getCatalogo()) {
-        modelo.addRow(new Object[]{
-            p.getNombre(),
-            p.getPrecio(),
-            p.getCategoria(),
-            p.getCalificacion()
-        });
-    }
 
-    tblPeluches.setModel(modelo);
-}
 
 
     /**
@@ -58,18 +55,19 @@ cargarTabla();
         btnEliminar = new javax.swing.JButton();
         btnNuevoPeluche = new javax.swing.JButton();
         jButton1 = new javax.swing.JButton();
+        btnGuardarStock = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
         tblPeluches.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null}
             },
             new String [] {
-                "Nombre", "Precio", "Categoria", "Clasificacion"
+                "Nombre", "Precio", "Categoria", "Clasificacion", "Stock"
             }
         ));
         jScrollPane1.setViewportView(tblPeluches);
@@ -95,32 +93,45 @@ cargarTabla();
             }
         });
 
+        btnGuardarStock.setText("GUARDAR CAMBIOS STOCK");
+        btnGuardarStock.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnGuardarStockActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane1))
-            .addGroup(layout.createSequentialGroup()
-                .addGap(226, 226, 226)
-                .addComponent(btnEliminar, javax.swing.GroupLayout.PREFERRED_SIZE, 122, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 250, Short.MAX_VALUE)
-                .addComponent(btnNuevoPeluche, javax.swing.GroupLayout.PREFERRED_SIZE, 119, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(192, 192, 192))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jScrollPane1)
+                        .addContainerGap())
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addComponent(jButton1)
+                        .addGap(15, 15, 15))))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jButton1)
-                .addGap(15, 15, 15))
+                .addGap(160, 160, 160)
+                .addComponent(btnNuevoPeluche, javax.swing.GroupLayout.PREFERRED_SIZE, 213, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(140, 140, 140)
+                .addComponent(btnEliminar, javax.swing.GroupLayout.PREFERRED_SIZE, 222, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 203, Short.MAX_VALUE)
+                .addComponent(btnGuardarStock)
+                .addGap(46, 46, 46))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(45, 45, 45)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(btnEliminar, javax.swing.GroupLayout.DEFAULT_SIZE, 53, Short.MAX_VALUE)
-                    .addComponent(btnNuevoPeluche, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btnNuevoPeluche, javax.swing.GroupLayout.PREFERRED_SIZE, 53, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnEliminar, javax.swing.GroupLayout.PREFERRED_SIZE, 53, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnGuardarStock, javax.swing.GroupLayout.PREFERRED_SIZE, 53, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 58, Short.MAX_VALUE)
                 .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
@@ -149,8 +160,10 @@ cargarTabla();
     }//GEN-LAST:event_btnEliminarActionPerformed
 
     private void btnNuevoPelucheActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNuevoPelucheActionPerformed
-FrmNuevoPeluche nuevo = new FrmNuevoPeluche(tienda, this);
-nuevo.setVisible(true);
+FrmNuevoPeluche frmNuevo = new FrmNuevoPeluche(tienda, this);
+frmNuevo.setVisible(true);
+
+
 
 
         // TODO add your handling code here:
@@ -166,6 +179,54 @@ nuevo.setVisible(true);
         // TODO add your handling code here:
     }//GEN-LAST:event_jButton1ActionPerformed
 
+    private void btnGuardarStockActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarStockActionPerformed
+DefaultTableModel modelo = (DefaultTableModel) tblPeluches.getModel();
+
+// Actualizar el stock de los peluches en el catálogo
+for (int i = 0; i < modelo.getRowCount(); i++) {
+    String nombre = modelo.getValueAt(i, 0).toString();
+    int nuevoStock;
+
+    try {
+        nuevoStock = Integer.parseInt(modelo.getValueAt(i, 4).toString());
+    } catch (NumberFormatException ex) {
+        JOptionPane.showMessageDialog(this, "Stock inválido en la fila " + (i + 1));
+        return;
+    }
+
+    // Buscar y actualizar el peluche
+    for (Peluche p : tienda.getCatalogo()) {
+        if (p.getNombre().equalsIgnoreCase(nombre)) {
+            p.setStock(nuevoStock);
+            break;
+        }
+    }
+}
+
+// Guardar el catálogo actualizado
+try {
+    tienda.guardarCatalogo();
+    System.out.println("🟢 Catálogo guardado:");
+    for (Peluche p : tienda.getCatalogo()) {
+        System.out.println(" - " + p.getNombre() + ", stock: " + p.getStock());
+    }
+    JOptionPane.showMessageDialog(this, "Stock actualizado correctamente.");
+} catch (IOException ex) {
+    JOptionPane.showMessageDialog(this, "❌ Error al guardar el catálogo: " + ex.getMessage());
+}
+System.out.println("Instancia Tienda: " + tienda);
+
+
+
+
+
+
+
+
+
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnGuardarStockActionPerformed
+
    public void actualizarTablaPeluches() {
     DefaultTableModel model = (DefaultTableModel) tblPeluches.getModel();
     model.setRowCount(0); // Limpia la tabla
@@ -176,10 +237,94 @@ nuevo.setVisible(true);
             p.getNombre(),
             p.getPrecio(),
             p.getCategoria(),
-            p.getCalificacion()
+            p.getCalificacion(),
+            p.getStock()  // 👈 Añadir stock
         });
     }
 }
+
+
+
+private void cargarPeluchesEnTabla() {
+    try {
+        tienda.cargarCatalogo(); // ✅ Cargar desde archivo
+    } catch (IOException | ClassNotFoundException e) {
+        JOptionPane.showMessageDialog(this, "Error al cargar catálogo: " + e.getMessage());
+        return;
+    }
+
+    DefaultTableModel modelo = (DefaultTableModel) tblPeluches.getModel();
+    modelo.setRowCount(0); // Limpiar la tabla antes de cargar
+
+    for (Peluche p : tienda.getCatalogo()) {
+        modelo.addRow(new Object[]{
+            p.getNombre(),
+            p.getPrecio(),
+            p.getCategoria(),
+            p.getCalificacion(),
+            p.getStock()  // 👈 Mostrar stock
+        });
+    }
+}
+
+private void cargarTabla() {
+    DefaultTableModel modelo = new DefaultTableModel(
+        new Object[]{"Nombre", "Precio", "Categoría", "Calificación", "Stock"}, 0
+    ) {
+        @Override
+        public boolean isCellEditable(int row, int column) {
+            // Solo permitir editar el stock (columna 4)
+            return column == 4;
+        }
+    };
+
+    for (Peluche p : tienda.getCatalogo()) {
+        modelo.addRow(new Object[]{
+            p.getNombre(),
+            p.getPrecio(),
+            p.getCategoria(),
+            p.getCalificacion(),
+            p.getStock()
+        });
+    }
+
+    tblPeluches.setModel(modelo);
+}
+private void guardarCambiosStock() {
+    DefaultTableModel modelo = (DefaultTableModel) tblPeluches.getModel();
+
+    for (int i = 0; i < modelo.getRowCount(); i++) {
+        String nombre = modelo.getValueAt(i, 0).toString();
+        int nuevoStock;
+        try {
+            nuevoStock = Integer.parseInt(modelo.getValueAt(i, 4).toString());
+        } catch (NumberFormatException e) {
+            JOptionPane.showMessageDialog(this, "Stock inválido en fila " + (i + 1));
+            return;
+        }
+
+        for (Peluche p : tienda.getCatalogo()) {
+            if (p.getNombre().equals(nombre)) {
+                p.setStock(nuevoStock);
+                break;
+            }
+        }
+    }
+
+    try {
+        tienda.guardarCatalogo(); // ✅ GUARDAR CATÁLOGO EN ARCHIVO
+        System.out.println("✅ Catálogo guardado:");
+        for (Peluche p : tienda.getCatalogo()) {
+            System.out.println(" - " + p.getNombre() + ", stock: " + p.getStock());
+        }
+        JOptionPane.showMessageDialog(this, "Stock actualizado correctamente.");
+    } catch (IOException ex) {
+        JOptionPane.showMessageDialog(this, "❌ Error al guardar catálogo: " + ex.getMessage());
+    }
+}
+
+
+
 
 
 
@@ -192,6 +337,7 @@ nuevo.setVisible(true);
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnEliminar;
+    private javax.swing.JButton btnGuardarStock;
     private javax.swing.JButton btnNuevoPeluche;
     private javax.swing.JButton jButton1;
     private javax.swing.JScrollPane jScrollPane1;

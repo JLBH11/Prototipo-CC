@@ -23,21 +23,28 @@
   <Layout>
     <DimensionLayout dim="0">
       <Group type="103" groupAlignment="0" attributes="0">
-          <Group type="102" alignment="0" attributes="0">
+          <Group type="102" attributes="0">
               <EmptySpace max="-2" attributes="0"/>
-              <Component id="jScrollPane1" max="32767" attributes="0"/>
-          </Group>
-          <Group type="102" alignment="0" attributes="0">
-              <EmptySpace min="-2" pref="226" max="-2" attributes="0"/>
-              <Component id="btnEliminar" min="-2" pref="122" max="-2" attributes="0"/>
-              <EmptySpace pref="250" max="32767" attributes="0"/>
-              <Component id="btnNuevoPeluche" min="-2" pref="119" max="-2" attributes="0"/>
-              <EmptySpace min="-2" pref="192" max="-2" attributes="0"/>
+              <Group type="103" groupAlignment="0" attributes="0">
+                  <Group type="102" alignment="0" attributes="0">
+                      <Component id="jScrollPane1" max="32767" attributes="0"/>
+                      <EmptySpace max="-2" attributes="0"/>
+                  </Group>
+                  <Group type="102" alignment="1" attributes="0">
+                      <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
+                      <Component id="jButton1" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace min="-2" pref="15" max="-2" attributes="0"/>
+                  </Group>
+              </Group>
           </Group>
           <Group type="102" alignment="1" attributes="0">
-              <EmptySpace max="32767" attributes="0"/>
-              <Component id="jButton1" min="-2" max="-2" attributes="0"/>
-              <EmptySpace min="-2" pref="15" max="-2" attributes="0"/>
+              <EmptySpace min="-2" pref="160" max="-2" attributes="0"/>
+              <Component id="btnNuevoPeluche" min="-2" pref="213" max="-2" attributes="0"/>
+              <EmptySpace min="-2" pref="140" max="-2" attributes="0"/>
+              <Component id="btnEliminar" min="-2" pref="222" max="-2" attributes="0"/>
+              <EmptySpace pref="203" max="32767" attributes="0"/>
+              <Component id="btnGuardarStock" min="-2" max="-2" attributes="0"/>
+              <EmptySpace min="-2" pref="46" max="-2" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
@@ -46,9 +53,10 @@
           <Group type="102" alignment="0" attributes="0">
               <Component id="jScrollPane1" min="-2" max="-2" attributes="0"/>
               <EmptySpace min="-2" pref="45" max="-2" attributes="0"/>
-              <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                  <Component id="btnEliminar" pref="53" max="32767" attributes="0"/>
-                  <Component id="btnNuevoPeluche" max="32767" attributes="0"/>
+              <Group type="103" groupAlignment="3" attributes="0">
+                  <Component id="btnNuevoPeluche" alignment="3" min="-2" pref="53" max="-2" attributes="0"/>
+                  <Component id="btnEliminar" alignment="3" min="-2" pref="53" max="-2" attributes="0"/>
+                  <Component id="btnGuardarStock" alignment="3" min="-2" pref="53" max="-2" attributes="0"/>
               </Group>
               <EmptySpace pref="58" max="32767" attributes="0"/>
               <Component id="jButton1" min="-2" pref="40" max="-2" attributes="0"/>
@@ -68,11 +76,12 @@
         <Component class="javax.swing.JTable" name="tblPeluches">
           <Properties>
             <Property name="model" type="javax.swing.table.TableModel" editor="org.netbeans.modules.form.editors2.TableModelEditor">
-              <Table columnCount="4" rowCount="4">
+              <Table columnCount="5" rowCount="4">
                 <Column editable="true" title="Nombre" type="java.lang.Object"/>
                 <Column editable="true" title="Precio" type="java.lang.Object"/>
                 <Column editable="true" title="Categoria" type="java.lang.Object"/>
                 <Column editable="true" title="Clasificacion" type="java.lang.Object"/>
+                <Column editable="true" title="Stock" type="java.lang.Object"/>
               </Table>
             </Property>
             <Property name="columnModel" type="javax.swing.table.TableColumnModel" editor="org.netbeans.modules.form.editors2.TableColumnModelEditor">
@@ -128,6 +137,14 @@
       </Properties>
       <Events>
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButton1ActionPerformed"/>
+      </Events>
+    </Component>
+    <Component class="javax.swing.JButton" name="btnGuardarStock">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="GUARDAR CAMBIOS STOCK"/>
+      </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnGuardarStockActionPerformed"/>
       </Events>
     </Component>
   </SubComponents>

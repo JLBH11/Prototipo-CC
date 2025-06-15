@@ -456,8 +456,10 @@ gestion.setVisible(true);
     }//GEN-LAST:event_btnAgregarPelucheActionPerformed
 
     private void btnEditarInventarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditarInventarioActionPerformed
-FrmGestionPeluches gestion = new FrmGestionPeluches(this.tienda);
-gestion.setVisible(true);
+FrmGestionPeluches frmGestion = new FrmGestionPeluches(this.tienda);
+frmGestion.setVisible(true);
+System.out.println("Instancia Tienda: " + tienda);
+
 
 
         // TODO add your handling code here:

@@ -18,6 +18,7 @@ public FrmNuevoPeluche(Tienda tienda, FrmGestionPeluches ventanaPadre) {
     initComponents();
     this.tienda = tienda;
     this.ventanaPadre = ventanaPadre;
+    
 }
 
 
@@ -50,11 +51,12 @@ public FrmNuevoPeluche(Tienda tienda, FrmGestionPeluches ventanaPadre) {
         btnBuscarImagen = new javax.swing.JButton();
         btnGuardar = new javax.swing.JButton();
         btnCancelar = new javax.swing.JButton();
+        txtStock = new javax.swing.JTextField();
+        jLabel5 = new javax.swing.JLabel();
 
         jLabel1.setText("jLabel1");
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setPreferredSize(new java.awt.Dimension(800, 800));
 
         jLabel2.setFont(new java.awt.Font("Segoe UI", 0, 24)); // NOI18N
         jLabel2.setText("AÑADIR PELUCHE");
@@ -96,6 +98,8 @@ public FrmNuevoPeluche(Tienda tienda, FrmGestionPeluches ventanaPadre) {
             }
         });
 
+        jLabel5.setText("STOCK");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -104,41 +108,56 @@ public FrmNuevoPeluche(Tienda tienda, FrmGestionPeluches ventanaPadre) {
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
+                                .addComponent(txtNombre, javax.swing.GroupLayout.PREFERRED_SIZE, 232, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(18, 18, 18)
+                                .addComponent(txtPrecio, javax.swing.GroupLayout.PREFERRED_SIZE, 112, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addGroup(layout.createSequentialGroup()
-                                .addGap(240, 240, 240)
-                                .addComponent(jLabel2))
+                                .addComponent(txtImagen, javax.swing.GroupLayout.PREFERRED_SIZE, 109, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(47, 47, 47))
                             .addGroup(layout.createSequentialGroup()
-                                .addGap(92, 92, 92)
-                                .addComponent(jLabel3)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 51, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(66, 66, 66)
-                                .addComponent(IMAGEN)))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jLabel6)
-                        .addGap(55, 55, 55))
+                                .addComponent(btnBuscarImagen, javax.swing.GroupLayout.PREFERRED_SIZE, 132, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(33, 33, 33)))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(29, 29, 29)
+                                .addComponent(txtCategoria, javax.swing.GroupLayout.PREFERRED_SIZE, 104, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addContainerGap(145, Short.MAX_VALUE))
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(42, 42, 42)
+                                .addComponent(btnCancelar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addContainerGap())))
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
-                                .addComponent(txtNombre, javax.swing.GroupLayout.PREFERRED_SIZE, 232, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(18, 18, 18)
-                                .addComponent(txtPrecio, javax.swing.GroupLayout.PREFERRED_SIZE, 88, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(18, 18, 18)
-                                .addComponent(txtImagen, javax.swing.GroupLayout.PREFERRED_SIZE, 109, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(18, 18, 18))
+                                .addGap(92, 92, 92)
+                                .addComponent(jLabel3)
+                                .addGap(139, 139, 139)
+                                .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 51, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(79, 79, 79)
+                                .addComponent(jLabel6)
+                                .addGap(51, 51, 51)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(txtCalificacion, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(74, 74, 74)
+                                .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 47, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(21, 21, 21)
+                        .addComponent(txtStock, javax.swing.GroupLayout.PREFERRED_SIZE, 158, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(61, 61, 61)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(IMAGEN)
+                                    .addComponent(jLabel2)))
                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                    .addComponent(btnGuardar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(btnBuscarImagen, javax.swing.GroupLayout.PREFERRED_SIZE, 132, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(btnCancelar, javax.swing.GroupLayout.DEFAULT_SIZE, 271, Short.MAX_VALUE))
-                                .addGap(8, 8, 8)))
-                        .addComponent(txtCategoria, javax.swing.GroupLayout.PREFERRED_SIZE, 104, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 32, Short.MAX_VALUE)))
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jLabel7, javax.swing.GroupLayout.DEFAULT_SIZE, 80, Short.MAX_VALUE)
-                    .addComponent(txtCalificacion))
-                .addGap(14, 14, 14))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(btnGuardar, javax.swing.GroupLayout.PREFERRED_SIZE, 207, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(16, 16, 16))))))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -149,23 +168,31 @@ public FrmNuevoPeluche(Tienda tienda, FrmGestionPeluches ventanaPadre) {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel3)
                     .addComponent(jLabel4)
-                    .addComponent(IMAGEN)
                     .addComponent(jLabel6)
                     .addComponent(jLabel7))
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(txtNombre, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(txtPrecio, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(txtImagen, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(txtCategoria, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(txtCalificacion, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
-                .addComponent(btnBuscarImagen)
-                .addGap(39, 39, 39)
-                .addComponent(btnGuardar)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 40, Short.MAX_VALUE)
-                .addComponent(btnCancelar)
-                .addGap(54, 54, 54))
+                .addGap(82, 82, 82)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(IMAGEN)
+                    .addComponent(jLabel5))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(txtStock, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txtImagen, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnGuardar, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(btnBuscarImagen)
+                        .addGap(60, 60, 60))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addComponent(btnCancelar, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(31, 31, 31))))
         );
 
         pack();
@@ -185,51 +212,65 @@ if (fileChooser.showOpenDialog(this) == JFileChooser.APPROVE_OPTION) {
     }//GEN-LAST:event_btnBuscarImagenActionPerformed
 
     private void btnGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarActionPerformed
-String nombre = txtNombre.getText().trim();
-String precioStr = txtPrecio.getText().trim();
-String imagenRuta = txtImagen.getText().trim();
-String categoria = txtCategoria.getText().trim();
-String calificacionStr = txtCalificacion.getText().trim();
+                                       
 
-if (!nombre.isEmpty() && !precioStr.isEmpty() && !calificacionStr.isEmpty()
-        && !imagenRuta.isEmpty() && !categoria.isEmpty()) {
+    // 1. Obtener y validar campos
+    String nombre = txtNombre.getText().trim();
+    String precioStr = txtPrecio.getText().trim();
+    String imagenRuta = txtImagen.getText().trim();
+    String categoria = txtCategoria.getText().trim();
+    String calificacionStr = txtCalificacion.getText().trim();
+    String stockStr = txtStock.getText().trim();
+
+    if (nombre.isEmpty() || precioStr.isEmpty() || imagenRuta.isEmpty() ||
+        categoria.isEmpty() || calificacionStr.isEmpty() || stockStr.isEmpty()) {
+        JOptionPane.showMessageDialog(this, "Por favor, completa todos los campos.");
+        return;
+    }
 
     double precio;
     double calificacion;
+    int stock;
 
     try {
         precio = Double.parseDouble(precioStr);
         calificacion = Double.parseDouble(calificacionStr);
+        stock = Integer.parseInt(stockStr);
     } catch (NumberFormatException e) {
-        JOptionPane.showMessageDialog(this, "Precio o calificación inválida. Deben ser números.");
+        JOptionPane.showMessageDialog(this, "Precio, calificación o stock inválidos. Deben ser números.");
         return;
     }
 
-    // Crear objeto Peluche
-    Peluche nuevo = new Peluche(nombre, precio, imagenRuta, categoria, calificacion);
-
-    // Agregar al catálogo
-    tienda.getCatalogo().add(nuevo);
-
-    // Guardar en archivo
-    try {
-        tienda.guardarCatalogo();
-        JOptionPane.showMessageDialog(this, "Peluche agregado correctamente.");
-
-        // ✅ Notificar al panel de gestión (FrmGestionPeluches)
-        if (ventanaPadre != null) {
-            ventanaPadre.actualizarTablaPeluches(); // Recarga la tabla con el nuevo peluche
-        }
-
-        this.dispose(); // Cierra la ventana actual
-
-    } catch (IOException ex) {
-        JOptionPane.showMessageDialog(this, "Error al guardar catálogo: " + ex.getMessage());
+    if (stock < 0) {
+        JOptionPane.showMessageDialog(this, "El stock no puede ser negativo.");
+        return;
     }
 
-} else {
-    JOptionPane.showMessageDialog(this, "Por favor, completa todos los campos.");
-}
+    // 2. Crear objeto Peluche con stock
+    Peluche nuevo = new Peluche(nombre, precio, imagenRuta, categoria, calificacion, stock);
+
+    // 3. Agregar al catálogo
+    tienda.getCatalogo().add(nuevo);
+
+    // 4. Guardar en archivo
+    try {
+        tienda.guardarCatalogo();
+        JOptionPane.showMessageDialog(this, "✅ Peluche agregado correctamente.");
+
+        // 5. Actualizar la tabla de la ventana de gestión (FrmGestionPeluches)
+        if (ventanaPadre != null) {
+            ventanaPadre.actualizarTablaPeluches(); // Método debe existir en FrmGestionPeluches
+        }
+
+        // 6. Cerrar ventana actual
+        this.dispose();
+
+    } catch (IOException ex) {
+        JOptionPane.showMessageDialog(this, "❌ Error al guardar catálogo: " + ex.getMessage());
+    }
+
+
+
 
 
 
@@ -256,6 +297,7 @@ this.dispose();
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JTextField txtCalificacion;
@@ -263,5 +305,6 @@ this.dispose();
     private javax.swing.JTextField txtImagen;
     private javax.swing.JTextField txtNombre;
     private javax.swing.JTextField txtPrecio;
+    private javax.swing.JTextField txtStock;
     // End of variables declaration//GEN-END:variables
 }

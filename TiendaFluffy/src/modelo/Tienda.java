@@ -16,15 +16,22 @@ public class Tienda {
         pedidos = new LinkedList<>();
         carrito = new ArrayList<>();
 
-        // Intentar cargar usuarios desde archivo
+        // Cargar usuarios desde archivo
         usuarios = UsuarioDatos.cargarUsuarios();
 
-        // Si la carga falla (null), inicializar y guardar un usuario admin
+        // Si no hay usuarios, crear uno por defecto
         if (usuarios == null || usuarios.isEmpty()) {
             usuarios = new ArrayList<>();
             Usuario admin = new Usuario("admin", "admin", "admin", "admin", "admin", "admin@email.com");
             usuarios.add(admin);
             UsuarioDatos.guardarUsuarios(usuarios);
+        }
+
+        // Intentar cargar catálogo al iniciar
+        try {
+            cargarCatalogo();
+        } catch (Exception e) {
+            catalogo = new ArrayList<>();
         }
     }
 
@@ -73,6 +80,15 @@ public class Tienda {
         return catalogo;
     }
 
+    public Peluche buscarPeluchePorNombre(String nombre) {
+        for (Peluche p : catalogo) {
+            if (p.getNombre().equalsIgnoreCase(nombre)) {
+                return p;
+            }
+        }
+        return null;
+    }
+
     // ============ HISTORIAL ============
     public void verProducto(Peluche p) {
         historial.push(p);
@@ -106,10 +122,17 @@ public class Tienda {
 
     // ============ ARCHIVOS ============
     public void guardarCatalogo() throws IOException {
-        ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream("catalogo.dat"));
-        out.writeObject(catalogo);
-        out.close();
+    ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream("catalogo.dat"));
+    out.writeObject(catalogo);
+    out.close();
+
+    // 🔍 DEBUG: Mostrar lo que se está guardando
+    System.out.println("✅ Catálogo guardado:");
+    for (Peluche p : catalogo) {
+        System.out.println(" - " + p.getNombre() + ", stock: " + p.getStock());
     }
+}
+
 
     public void cargarCatalogo() throws IOException, ClassNotFoundException {
         File archivo = new File("catalogo.dat");
