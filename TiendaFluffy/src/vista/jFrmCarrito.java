@@ -13,16 +13,21 @@ import modelo.Pedido;
 import modelo.Peluche;
 import modelo.Tienda;
 import modelo.Usuario;
+import modelo.UsuarioDatos;
+import vista.FrmCatalogo;
 
 
 public class jFrmCarrito extends javax.swing.JFrame {
     private Tienda tienda;
     private Usuario usuario;
+    private FrmCatalogo frmCatalogo;
 
-    public jFrmCarrito(Tienda tienda, Usuario usuario) {
+
+    public jFrmCarrito(Tienda tienda, Usuario usuario, FrmCatalogo frmCatalogo) {
         System.out.println("Usuario recibido en jFrmCarrito: " + (usuario != null ? usuario.getUsername() : "null"));
         this.tienda = tienda;
         this.usuario = usuario;
+        this.frmCatalogo = frmCatalogo;
 
         initComponents();
         
@@ -282,42 +287,51 @@ public class jFrmCarrito extends javax.swing.JFrame {
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
 
     if (usuario.getArticulos().isEmpty()) {
-        JOptionPane.showMessageDialog(this, "El carrito está vacío");
+        JOptionPane.showMessageDialog(this, "El carrito está vacío.");
         return;
     }
-
     try {
-        // Calcular total
         double total = 0.0;
         for (Peluche p : usuario.getArticulos()) {
             total += p.getPrecio();
         }
-
-        // Crear nuevo pedido
-        int id = generarIdUnico(); // método que podés crear para no repetir ids
+        
+        int id = generarIdUnico();
         Usuario cliente = usuario;
-        List<Peluche> productos = new ArrayList<>(usuario.getArticulos()); // copia del carrito
+        List<Peluche> productos = new ArrayList<>(usuario.getArticulos()); 
         String estado = "Pendiente";
 
         Pedido nuevoPedido = new Pedido(id, cliente, productos, total, estado);
 
-        // Agregar a la tienda y al historial del usuario
-        tienda.agregarPedido(nuevoPedido); // importante: agregar a la tienda también
+        // Agregar a la tienda
+        tienda.agregarPedido(nuevoPedido);
         usuario.getHistorialPedidos().add(nuevoPedido);
+UsuarioDatos.guardarUsuarios(tienda.getUsuarios()); // Esto sobrescribe el .dat con el nuevo pedido incluido en el usuario.
 
-        // Guardar catálogo actualizado
+        
+        // Descontar stock de cada peluche comprado
+        for (Peluche p : productos) {
+            p.setStock(Math.max(0, p.getStock() - 1)); 
+        }
         tienda.guardarCatalogo();
-        tienda.guardarPedidos(); // también guarda pedidos
 
-        // Vaciar carrito
+        // Limpiar carrito
         usuario.getArticulos().clear();
         actualizarCarrito();
 
-        JOptionPane.showMessageDialog(this, "¡Compra finalizada con éxito!");
+        // Finalmente guardar pedidos
+        tienda.guardarPedidos();
 
+        JOptionPane.showMessageDialog(this, "¡Compra finalizada con éxito!");
     } catch (IOException ex) {
-        JOptionPane.showMessageDialog(this, "Error al guardar: " + ex.getMessage());
+        JOptionPane.showMessageDialog(this, "Error al guardar: " + ex.getMessage()); 
     }
+    if (frmCatalogo != null) {
+    frmCatalogo.cargarPeluches();
+    frmCatalogo.revalidate();
+    frmCatalogo.repaint();
+}
+
 
 
     }//GEN-LAST:event_jButton3ActionPerformed

@@ -37,10 +37,14 @@ public class UsuarioDatos {
     }
 
     public static void guardarFavoritosDe(Usuario usuarioActual) {
-        ArrayList<Usuario> lista = cargarUsuarios();
-        for (Usuario u : lista) {
-            if (u.getUsername().equals(usuarioActual.getUsername())) {
-                u.setFavoritos(usuarioActual.getFavoritos());
-                break;
-            }
-        }}}
+    ArrayList<Usuario> lista = cargarUsuarios();
+
+    for (Usuario u : lista) {
+        if (u.getUsername().equals(usuarioActual.getUsername())) {
+            u.setFavoritos(usuarioActual.getFavoritos()); // actualizamos
+            break;
+        }
+    }
+    guardarUsuarios(lista); // guardamos toda la lista de nuevo en el .dat
+}
+}

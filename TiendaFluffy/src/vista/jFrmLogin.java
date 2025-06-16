@@ -10,9 +10,11 @@ import java.util.ArrayList;
 import vista.FrmAdmin;
 import vista.FrmCatalogo;
 import vista.jFrmRegistrarU;
+import controlador.ControladorLogin;
 
 public class jFrmLogin extends javax.swing.JFrame {
     private Tienda tienda;
+ControladorLogin controlador = new ControladorLogin();
 
     public jFrmLogin() {
         initComponents();
@@ -258,6 +260,8 @@ if (usuarioLogueado != null) {
     JOptionPane.showMessageDialog(this, "Usuario o contraseña incorrectos.");
 }
 System.out.println("Instancia Tienda: " + tienda);
+
+controlador.controlIniciarSesion();
     }//GEN-LAST:event_jButtonIsuActionPerformed
 
     private void jButtonIsaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonIsaActionPerformed
@@ -271,14 +275,14 @@ if (usuario.equals("admin") && clave.equals("1234")) {
 } else {
     JOptionPane.showMessageDialog(this, "Credenciales de administrador incorrectas.");
 }
-
+controlador.controlAdmin();
     }//GEN-LAST:event_jButtonIsaActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
    jFrmRegistrarU frm = new jFrmRegistrarU(tienda);
 frm.setVisible(true);
 
-
+ controlador.controlAbrirRegistro();
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
@@ -288,7 +292,7 @@ frm.setVisible(true);
                    + "Horario de atención: Lunes a Viernes, 9:00 a 18:00";
 
     JOptionPane.showMessageDialog(this, mensaje, "Soporte Técnico", JOptionPane.INFORMATION_MESSAGE);
-
+  controlador.controlSoporte();
    // aqui quiero que al presionar este boton de soporte, muestre un mensaje por dialogo con la informacion de soporte, el telefono y email
     }//GEN-LAST:event_jButton2ActionPerformed
 
