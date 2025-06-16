@@ -15,15 +15,17 @@ import modelo.Usuario;
 import modelo.VentaDatos;
 import vista.FrmCatalogo;
 import modelo.TiendaDatos;
-
+import vista.FrmPedidos;
 public class FrmAdmin extends javax.swing.JFrame {
 private Tienda tienda;
+private FrmReportes miVentanaReportes; // ✅ Para que pueda ser compartido
+
     /**
      * Creates new form FrmAdmin
      */
      public FrmAdmin(Tienda tienda) {
+         this.tienda = tienda;
         initComponents();
-        this.tienda = tienda;
         setLocationRelativeTo(null); // Centra la ventana
         actualizarResumen();
     }
@@ -54,12 +56,12 @@ private Tienda tienda;
         jLabel14 = new javax.swing.JLabel();
         jPanel6 = new javax.swing.JPanel();
         jLabel2 = new javax.swing.JLabel();
-        btnEditarInventario = new javax.swing.JButton();
+        btnGestionarPeluches = new javax.swing.JButton();
         btnAgregarPeluche = new javax.swing.JButton();
         jPanel7 = new javax.swing.JPanel();
         jLabel3 = new javax.swing.JLabel();
         jButton3 = new javax.swing.JButton();
-        jButton4 = new javax.swing.JButton();
+        btnGestionarPedidos = new javax.swing.JButton();
         jButton5 = new javax.swing.JButton();
         jPanel8 = new javax.swing.JPanel();
         jLabel4 = new javax.swing.JLabel();
@@ -168,10 +170,10 @@ private Tienda tienda;
 
         jLabel2.setText("GESTION DE PRODUCTOS");
 
-        btnEditarInventario.setText("EDITAR INVENTARIO");
-        btnEditarInventario.addActionListener(new java.awt.event.ActionListener() {
+        btnGestionarPeluches.setText("EDITAR INVENTARIO");
+        btnGestionarPeluches.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnEditarInventarioActionPerformed(evt);
+                btnGestionarPeluchesActionPerformed(evt);
             }
         });
 
@@ -194,7 +196,7 @@ private Tienda tienda;
                     .addGroup(jPanel6Layout.createSequentialGroup()
                         .addGap(284, 284, 284)
                         .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(btnEditarInventario, javax.swing.GroupLayout.PREFERRED_SIZE, 384, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(btnGestionarPeluches, javax.swing.GroupLayout.PREFERRED_SIZE, 384, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(btnAgregarPeluche, javax.swing.GroupLayout.PREFERRED_SIZE, 384, javax.swing.GroupLayout.PREFERRED_SIZE))))
                 .addContainerGap(320, Short.MAX_VALUE))
         );
@@ -206,7 +208,7 @@ private Tienda tienda;
                 .addGap(10, 10, 10)
                 .addComponent(btnAgregarPeluche, javax.swing.GroupLayout.DEFAULT_SIZE, 44, Short.MAX_VALUE)
                 .addGap(18, 18, 18)
-                .addComponent(btnEditarInventario, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(btnGestionarPeluches, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(28, 28, 28))
         );
 
@@ -221,10 +223,10 @@ private Tienda tienda;
             }
         });
 
-        jButton4.setText("GESTIONAR PEDIDOS");
-        jButton4.addActionListener(new java.awt.event.ActionListener() {
+        btnGestionarPedidos.setText("GESTIONAR PEDIDOS");
+        btnGestionarPedidos.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton4ActionPerformed(evt);
+                btnGestionarPedidosActionPerformed(evt);
             }
         });
 
@@ -247,7 +249,7 @@ private Tienda tienda;
                     .addGroup(jPanel7Layout.createSequentialGroup()
                         .addGap(288, 288, 288)
                         .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jButton4, javax.swing.GroupLayout.PREFERRED_SIZE, 378, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(btnGestionarPedidos, javax.swing.GroupLayout.PREFERRED_SIZE, 378, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 378, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jButton5, javax.swing.GroupLayout.PREFERRED_SIZE, 378, javax.swing.GroupLayout.PREFERRED_SIZE))))
                 .addContainerGap(322, Short.MAX_VALUE))
@@ -260,7 +262,7 @@ private Tienda tienda;
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jButton3)
                 .addGap(18, 18, 18)
-                .addComponent(jButton4)
+                .addComponent(btnGestionarPedidos)
                 .addGap(18, 18, 18)
                 .addComponent(jButton5)
                 .addContainerGap(34, Short.MAX_VALUE))
@@ -449,24 +451,45 @@ gestion.setVisible(true);
 
     }//GEN-LAST:event_btnAgregarPelucheActionPerformed
 
-    private void btnEditarInventarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditarInventarioActionPerformed
-FrmGestionPeluches frmGestion = new FrmGestionPeluches(this.tienda);
-frmGestion.setVisible(true);
-System.out.println("Instancia Tienda: " + tienda);
+    private void btnGestionarPeluchesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGestionarPeluchesActionPerformed
+btnGestionarPeluches.addActionListener(e -> {
+    miVentanaReportes = new FrmReportes(tienda); // siempre nueva para datos actualizados
+
+    FrmGestionPeluches frm = new FrmGestionPeluches(tienda);
+    frm.setVentanaAdmin(this); // 🔴 importante
+    frm.setVentanaReportes(miVentanaReportes); // 🔴 importante
+    frm.setVisible(true);
+});
+
+
+
+
+
+
+
+
 
 
 
         // TODO add your handling code here:
-    }//GEN-LAST:event_btnEditarInventarioActionPerformed
+    }//GEN-LAST:event_btnGestionarPeluchesActionPerformed
 
-    private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
+    private void btnGestionarPedidosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGestionarPedidosActionPerformed
+ FrmPedidos frm = new FrmPedidos(this.tienda); // ← Usa la misma tienda
+frm.setVisible(true);
 
         // TODO add your handling code here:
-    }//GEN-LAST:event_jButton4ActionPerformed
+    }//GEN-LAST:event_btnGestionarPedidosActionPerformed
 
     private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
-FrmReportes reportes = new FrmReportes();
-        reportes.setVisible(true);
+if (miVentanaReportes == null) {
+    miVentanaReportes = new FrmReportes(tienda);
+}
+miVentanaReportes.actualizarDatos(); // 🔁 Siempre refresca
+miVentanaReportes.setVisible(true);
+
+
+
         // TODO add your handling code here:
     }//GEN-LAST:event_jButton5ActionPerformed
 
@@ -482,7 +505,7 @@ FrmUsuarios usuarios = new FrmUsuarios();
         // TODO add your handling code here:
     }//GEN-LAST:event_jButton6ActionPerformed
 
-    private void actualizarResumen() {
+    public void actualizarResumen() {
     // 1. Ventas totales
     double ventasTotales = VentaDatos.obtenerTotalVentas();
 
@@ -533,9 +556,9 @@ FrmUsuarios usuarios = new FrmUsuarios();
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAgregarPeluche;
-    private javax.swing.JButton btnEditarInventario;
+    private javax.swing.JButton btnGestionarPedidos;
+    private javax.swing.JButton btnGestionarPeluches;
     private javax.swing.JButton jButton3;
-    private javax.swing.JButton jButton4;
     private javax.swing.JButton jButton5;
     private javax.swing.JButton jButton6;
     private javax.swing.JLabel jLabel1;

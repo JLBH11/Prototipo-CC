@@ -14,16 +14,18 @@ import javax.swing.*;
 import java.awt.*;
 import java.util.ArrayList;
 import modelo.Peluche;
+import modelo.Tienda;
 import modelo.UsuarioDatos;
 import modelo.TiendaDatos;
 import modelo.VentaDatos;
 
 public class FrmReportes extends JFrame {
-
+private Tienda tienda;
     private JLabel lblTitulo, lblUsuarios, lblPeluches, lblVentas;
     private JButton btnCerrar;
 
-    public FrmReportes() {
+    public FrmReportes(Tienda tienda) {
+        this.tienda = tienda;
         setTitle("Reportes y Análisis");
         setSize(400, 300);
         setLocationRelativeTo(null);
@@ -56,7 +58,7 @@ public class FrmReportes extends JFrame {
         // Botón cerrar
         btnCerrar = new JButton("Cerrar");
         btnCerrar.setBounds(150, 200, 100, 30);
-        btnCerrar.addActionListener(e -> dispose());
+        btnCerrar.addActionListener(e -> setVisible(false));
         add(btnCerrar);
 
         // Cargar datos reales
@@ -92,41 +94,11 @@ public class FrmReportes extends JFrame {
     /**
      * @param args the command line arguments
      */
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(FrmReportes.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(FrmReportes.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(FrmReportes.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(FrmReportes.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
-
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new FrmReportes().setVisible(true);
-            }
-        });
-    }
+    
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     // End of variables declaration//GEN-END:variables
-private void cargarDatos() {
+public void cargarDatos() {
     int totalUsuarios = UsuarioDatos.cargarUsuarios().size();
 
     // Cargar peluches desde archivo y actualizar lista en memoria
@@ -141,10 +113,13 @@ private void cargarDatos() {
     double totalVentas = VentaDatos.obtenerTotalVentas();
 
     lblUsuarios.setText("Usuarios registrados: " + totalUsuarios);
-    lblPeluches.setText("Peluches en inventario: " + totalModelos + " modelos (" + totalStock + " unidades)");
+    lblPeluches.setText("Peluches en inventario: " + totalModelos + " modelos");
     lblVentas.setText("Ventas totales: $" + String.format("%,.2f", totalVentas));
 }
 
+public void actualizarDatos() {
+    cargarDatos(); // o actualizarResumen(), dependiendo de cuál uses
+}
 
 
 

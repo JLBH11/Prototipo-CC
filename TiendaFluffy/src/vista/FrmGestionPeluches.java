@@ -13,13 +13,27 @@ import modelo.Tienda;
 public class FrmGestionPeluches extends javax.swing.JFrame {
 
     private Tienda tienda;
+    private FrmAdmin ventanaAdmin;
+private FrmReportes ventanaReportes;
+
+public void setVentanaAdmin(FrmAdmin admin) {
+    this.ventanaAdmin = admin;
+    System.out.println("✅ ventanaAdmin asignada: " + admin);
+}
+
+public void setVentanaReportes(FrmReportes reportes) {
+    this.ventanaReportes = reportes;
+    System.out.println("✅ ventanaReportes asignada: " + reportes);
+}
+
+
 
     /**
      * Creates new form FrmGestionPeluches
      */
     public FrmGestionPeluches(Tienda tienda) {
+        this.tienda = tienda;
     initComponents();
-    this.tienda = tienda;
     System.out.println("Peluches cargados: " + tienda.getCatalogo().size());
 cargarPeluchesEnTabla();
     actualizarTablaPeluches();
@@ -214,6 +228,26 @@ try {
     JOptionPane.showMessageDialog(this, "❌ Error al guardar el catálogo: " + ex.getMessage());
 }
 System.out.println("Instancia Tienda: " + tienda);
+if (ventanaAdmin != null) {
+    ventanaAdmin.actualizarResumen();
+} else {
+    System.out.println("❌ ventanaAdmin es null");
+}
+
+if (ventanaReportes != null) {
+    ventanaReportes.cargarDatos();
+} else {
+    System.out.println("❌ ventanaReportes es null");
+}
+if (ventanaAdmin != null) {
+    ventanaAdmin.actualizarResumen(); // ✅ actualiza el resumen
+}
+
+if (ventanaReportes != null) {
+    ventanaReportes.actualizarDatos(); // Refresca los reportes
+}
+
+
 
 
 

@@ -118,7 +118,7 @@ lblLogo.setIcon(new ImageIcon(imagenEscalada));
         jLabel5.setForeground(new java.awt.Color(102, 102, 102));
         jLabel5.setText("¿No tienes una cuenta?");
 
-        txtClave.setText("000000000");
+        txtClave.setText("0000");
 
         jButton1.setBackground(new java.awt.Color(0, 0, 0));
         jButton1.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
@@ -258,16 +258,6 @@ if (usuarioLogueado != null) {
     JOptionPane.showMessageDialog(this, "Usuario o contraseña incorrectos.");
 }
 System.out.println("Instancia Tienda: " + tienda);
-
-
-
-
-
-
-
-
-
-
     }//GEN-LAST:event_jButtonIsuActionPerformed
 
     private void jButtonIsaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonIsaActionPerformed

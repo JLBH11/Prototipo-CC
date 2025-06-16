@@ -9,6 +9,7 @@ public class Tienda {
     private Queue<Peluche> pedidos;
     private ArrayList<Usuario> usuarios;
     private ArrayList<Peluche> carrito;
+private ArrayList<Pedido> listaPedidos = new ArrayList<>();
 
     public Tienda() {
         catalogo = new ArrayList<>();
@@ -33,6 +34,7 @@ public class Tienda {
         } catch (Exception e) {
             catalogo = new ArrayList<>();
         }
+        cargarPedidos();
     }
 
     // ============ LOGIN ============
@@ -141,5 +143,50 @@ public class Tienda {
             catalogo = (ArrayList<Peluche>) in.readObject();
             in.close();
         }
+    }
+    public List<Pedido> getListaPedidos() {
+    return listaPedidos;
+}
+
+public Pedido buscarPedidoPorId(int id) {
+    for (Pedido p : listaPedidos) {
+        if (p.getId() == id) {
+            return p;
+        }
+    }
+    return null;
+}
+
+public void eliminarPedido(int id) {
+    Pedido pedido = buscarPedidoPorId(id);
+    if (pedido != null) {
+        listaPedidos.remove(pedido);
+    }
+}
+
+public void agregarPedido(Pedido pedido) {
+    listaPedidos.add(pedido);
+    guardarPedidos(); // nuevo método, para persistencia
+}
+public void guardarPedidos() {
+    try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream("pedidos.dat"))) {
+        oos.writeObject(listaPedidos);
+    } catch (IOException e) {
+        e.printStackTrace();
+    }
+}
+
+@SuppressWarnings("unchecked")
+public void cargarPedidos() {
+    try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream("pedidos.dat"))) {
+        listaPedidos = (ArrayList<Pedido>) ois.readObject();
+    } catch (IOException | ClassNotFoundException e) {
+        listaPedidos = new ArrayList<>(); // archivo no existe o está vacío
+    }
+}
+public void guardarUsuarios() {
+    
+    UsuarioDatos.guardarUsuarios(usuarios);
+     
     }
 }

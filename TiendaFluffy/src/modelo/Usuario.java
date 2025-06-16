@@ -2,6 +2,7 @@ package modelo;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.List;
 
 public class Usuario implements Serializable {
     private static final long serialVersionUID = 1L; // Para compatibilidad de serialización
@@ -14,6 +15,7 @@ public class Usuario implements Serializable {
     private String email;
     private ArrayList<Peluche> favoritos = new ArrayList<>();
     private ArrayList<Peluche> articulos = new ArrayList<>();
+    private List<Pedido> historialPedidos = new ArrayList<>();
 
     public Usuario(String username, String contraseña, String nombres, String apellidos, String telefono, String email) {
         this.username = username;
@@ -22,6 +24,7 @@ public class Usuario implements Serializable {
         this.apellidos = apellidos;
         this.telefono = telefono;
         this.email = email;
+        this.historialPedidos = new ArrayList<>();
     }
 
     // Getters y Setters
@@ -63,9 +66,14 @@ public void setFavoritos(ArrayList<Peluche> favoritos) {
 
 //Articulos
 public void agregarArticulo(Peluche p) {
-        if (!articulos.contains(p)) {
-            articulos.add(p);
-        }
+
+    if (articulos == null) {
+        articulos = new ArrayList<>();
+    }
+    if (!articulos.contains(p)) {
+        articulos.add(p);
+    }
+
     }
     public ArrayList<Peluche> getArticulos() {
     return articulos;
@@ -74,5 +82,17 @@ public void agregarArticulo(Peluche p) {
 public void setArticulo(ArrayList<Peluche> articulos) {
     this.articulos = articulos;
 }
+
+public List<Pedido> getHistorialPedidos() {
+if (historialPedidos == null) {
+        historialPedidos = new ArrayList<>();
+    }
+    return historialPedidos;
+}
+
+public void agregarPedido(Pedido pedido) {
+    historialPedidos.add(pedido);
+}
+
 }
 
